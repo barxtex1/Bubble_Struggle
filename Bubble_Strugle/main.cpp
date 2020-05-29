@@ -1,9 +1,8 @@
-#include <iostream>
-
-using namespace std;
+#include "scena.h"
 
 int main()
 {
-    cout << "Hello World!" << endl;
+    Scena s(800,600);
+    s.loop();
     return 0;
 }
