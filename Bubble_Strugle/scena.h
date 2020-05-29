@@ -12,7 +12,8 @@ class Scena
 private:
     sf::RenderWindow window_;
     std::vector<sf::Sprite> obiekty;
-    std::vector<std::unique_ptr<sf::Sprite>> plansza;
+    std::vector<std::unique_ptr<sf::Sprite>> tlo;
+    std::vector<std::unique_ptr<sf::Sprite>> sciany;
     std::vector<std::unique_ptr<sf::Texture>> textury;
 public:
     Scena(const int& Width,const int& Height);
