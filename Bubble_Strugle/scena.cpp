@@ -1,6 +1,6 @@
 #include "scena.h"
 
-Scena::Scena(const int& Width,const int& Height) : window_(sf::VideoMode(Width, Height), "Bubble Strugle")
+Scena::Scena(const int& W,const int& H) : window_(sf::VideoMode(W, H), "Bubble Strugle"),Width(W),Height(H)
 {
     std::unique_ptr<sf::Texture> bg01 = std::make_unique<sf::Texture>();
     if(!bg01->loadFromFile("Source/Universe/bkgd_0.png")){
@@ -79,7 +79,16 @@ Scena::Scena(const int& Width,const int& Height) : window_(sf::VideoMode(Width, 
     sciany.emplace_back(std::move(dirt04));
 }
 
-void Scena::draw()
+int Scena::getWidth()
+{
+    return Width;
+}
+int Scena::getHeight()
+{
+    return Height;
+}
+
+void Scena::draw(Player& hero)
 {
     window_.clear(sf::Color::Black);
 
@@ -91,10 +100,11 @@ void Scena::draw()
     {
         window_.draw(*el);
     }
+    window_.draw(*hero.robot);
     window_.display();
 }
 
-void Scena::loop()
+void Scena::loop(Player& hero)
 {
     while (window_.isOpen())
     {
@@ -107,6 +117,6 @@ void Scena::loop()
             }
         }
     sf::sleep(sf::milliseconds(1));
-    this->draw();
+    this->draw(hero);
     }
 }

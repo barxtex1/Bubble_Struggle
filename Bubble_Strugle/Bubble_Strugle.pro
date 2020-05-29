@@ -12,7 +12,10 @@ CONFIG(debug, debug|release){
 
 SOURCES += \
         main.cpp \
+        player.cpp \
         scena.cpp
 
 HEADERS += \
+    defs.h \
+    player.h \
     scena.h

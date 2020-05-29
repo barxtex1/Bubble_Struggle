@@ -1,26 +1,25 @@
 #ifndef SCENA_H
 #define SCENA_H
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
-#include <memory>
-#include <iostream>
-#include <vector>
-#include <cmath>
+#pragma once
+#include "player.h"
+
 
 class Scena
 {
 private:
     sf::RenderWindow window_;
-    std::vector<sf::Sprite> obiekty;
+    int Width,Height;
     std::vector<std::unique_ptr<sf::Sprite>> tlo;
     std::vector<std::unique_ptr<sf::Sprite>> sciany;
     std::vector<std::unique_ptr<sf::Texture>> textury;
 public:
-    Scena(const int& Width,const int& Height);
+    Scena(const int& W,const int& H);
     void add_obiekt();
+    int getWidth();
+    int getHeight();
     void add_gift();
-    void draw();
-    void loop();
+    void draw(Player& hero);
+    void loop(Player& hero);
 };
 
 #endif // SCENA_H
