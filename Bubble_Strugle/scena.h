@@ -18,7 +18,7 @@ public:
     int getWidth();
     int getHeight();
     void add_gift();
-    void draw(Player& hero);
+    void draw(const sf::Time& elp, Player& hero);
     void loop(Player& hero);
 };
 
