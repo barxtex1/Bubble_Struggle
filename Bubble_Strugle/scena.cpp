@@ -101,7 +101,7 @@ void Scena::draw(const sf::Time& elp, Player& hero)
         window_.draw(*el);
     }
     window_.draw(*hero.robot);
-    hero.animated(elp);
+    hero.animated(elp,sciany);
     window_.display();
 }
 

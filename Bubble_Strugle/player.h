@@ -15,7 +15,7 @@ private:
 public:
     Player(const int& W,const int& H);
     friend class Scena;
-    void animated(const sf::Time& elapsed);
+    void animated(const sf::Time& elapsed,const std::vector<std::unique_ptr<sf::Sprite>> &sciany);
     void run_right(const sf::Time& elapsed);
     void run_left(const sf::Time& elapsed);
 };

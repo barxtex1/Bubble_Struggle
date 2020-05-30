@@ -50,17 +50,31 @@ void Player::run_left(const sf::Time& elapsed)
     }
 }
 
-void Player::animated(const sf::Time& elapsed)
+void Player::animated(const sf::Time& elapsed,const std::vector<std::unique_ptr<sf::Sprite>> &sciany)
 {
     robot->setTextureRect(sf::IntRect(0, 0, 192, 256));
     time += elapsed.asSeconds();
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         run_right(elapsed);
+        for (auto &s : sciany)
+        {
+            if (s->getGlobalBounds().intersects(robot->getGlobalBounds()))
+            {
+                robot->move(-100*elapsed.asSeconds(),0);
+            }
+        }
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         run_left(elapsed);
+        for (auto &s : sciany)
+        {
+            if (s->getGlobalBounds().intersects(robot->getGlobalBounds()))
+            {
+                robot->move(100*elapsed.asSeconds(),0);
+            }
+        }
     }
 }
 
