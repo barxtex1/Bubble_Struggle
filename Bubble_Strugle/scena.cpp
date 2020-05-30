@@ -102,7 +102,7 @@ void Scena::draw(const sf::Time& elp, Player& hero,Enemy *ball)
     window_.draw(*hero.robot);
     hero.animated(elp,sciany);
     window_.draw(*ball);
-    ball->jump(elp,sciany);
+    ball->jump(elp,getWidth(),getHeight());
     window_.display();
 }
 
@@ -120,8 +120,8 @@ void Scena::loop(Player& hero,Enemy *ball)
                 window_.close();
             }
         }
-    sf::Time elapsed = clock.restart();
-    sf::sleep(sf::milliseconds(1));
-    this->draw(elapsed,hero,ball);
+        sf::Time elapsed = clock.restart();
+        sf::sleep(sf::milliseconds(1));
+        this->draw(elapsed,hero,ball);
     }
 }
