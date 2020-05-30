@@ -4,6 +4,7 @@ int main()
 {
     Scena s(1000,800);
     Player hero(s.getWidth(),s.getHeight());
-    s.loop(hero);
+    Enemy* ball;
+    s.loop(hero,ball);
     return 0;
 }

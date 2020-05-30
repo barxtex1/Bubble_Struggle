@@ -2,7 +2,7 @@
 #define SCENA_H
 #pragma once
 #include "player.h"
-
+#include "enemy.h"
 
 class Scena
 {
@@ -14,12 +14,10 @@ private:
     std::vector<std::unique_ptr<sf::Texture>> textury;
 public:
     Scena(const int& W,const int& H);
-    void add_obiekt();
     int getWidth();
     int getHeight();
-    void add_gift();
-    void draw(const sf::Time& elp, Player& hero);
-    void loop(Player& hero);
+    void draw(const sf::Time& elp, Player& hero,Enemy* ball);
+    void loop(Player& hero,Enemy* ball);
 };
 
 #endif // SCENA_H

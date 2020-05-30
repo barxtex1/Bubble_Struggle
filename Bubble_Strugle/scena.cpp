@@ -88,10 +88,9 @@ int Scena::getHeight()
     return Height;
 }
 
-void Scena::draw(const sf::Time& elp, Player& hero)
+void Scena::draw(const sf::Time& elp, Player& hero,Enemy *ball)
 {
     window_.clear(sf::Color::Black);
-
     for(auto& el: tlo)
     {
         window_.draw(*el);
@@ -102,12 +101,15 @@ void Scena::draw(const sf::Time& elp, Player& hero)
     }
     window_.draw(*hero.robot);
     hero.animated(elp,sciany);
+    window_.draw(*ball);
+    ball->jump(elp,sciany);
     window_.display();
 }
 
-void Scena::loop(Player& hero)
+void Scena::loop(Player& hero,Enemy *ball)
 {
     sf::Clock clock;
+    ball = new Enemy(100);
     while (window_.isOpen())
     {
         sf::Event event;
@@ -120,6 +122,6 @@ void Scena::loop(Player& hero)
         }
     sf::Time elapsed = clock.restart();
     sf::sleep(sf::milliseconds(1));
-    this->draw(elapsed,hero);
+    this->draw(elapsed,hero,ball);
     }
 }

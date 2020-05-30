@@ -11,11 +11,13 @@ CONFIG(debug, debug|release){
 }
 
 SOURCES += \
+        enemy.cpp \
         main.cpp \
         player.cpp \
         scena.cpp
 
 HEADERS += \
     defs.h \
+    enemy.h \
     player.h \
     scena.h
