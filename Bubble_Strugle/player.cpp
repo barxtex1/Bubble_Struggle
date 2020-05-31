@@ -2,6 +2,7 @@
 
 Player::Player(const int& W,const int& H)
 {
+    //add robot
     textura = std::make_unique<sf::Texture>();
     if(!textura->loadFromFile("Source/Robot/Tilesheet/character_robot_sheetHD.png")){
         throw("Could not load texture");
@@ -16,6 +17,19 @@ Player::Player(const int& W,const int& H)
     {
         frame.emplace_back(sf::IntRect(i,1024, 192, 256));
     }
+    //add explosion
+    textura_exp = std::make_unique<sf::Texture>();
+    if(!textura_exp->loadFromFile("Source/Robot/Explosion/Explosion.png")){
+        throw("Could not load texture");
+    }
+    explosion = std::make_unique<sf::Sprite>();
+    explosion->setTexture(*textura_exp);
+    explosion->setScale(2,2);
+    for (int i = 0;i<=1152;i+=96)
+    {
+        frame_exp.emplace_back(sf::IntRect(i,0, 96, 96));
+    }
+    explosion->setTextureRect(frame_exp[0]);
 }
 
 void Player::run_right(const sf::Time& elapsed)
@@ -52,7 +66,7 @@ void Player::run_left(const sf::Time& elapsed)
 
 void Player::animated(const sf::Time& elapsed,const std::vector<std::unique_ptr<sf::Sprite>> &sciany)
 {
-    robot->setTextureRect(sf::IntRect(0, 0, 192, 256));
+    robot->setTextureRect(sf::IntRect(0,0, 192, 256));
     time += elapsed.asSeconds();
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
@@ -77,4 +91,15 @@ void Player::animated(const sf::Time& elapsed,const std::vector<std::unique_ptr<
         }
     }
 }
+
+void Player::kolizja(const sf::Time& elapsed)
+{
+    time += elapsed.asSeconds();
+    for (int i=0;i<12;i++)
+    {
+        if(time>i-0.9*i) explosion->setTextureRect(frame_exp[i]);
+        if(time>=1.2) time=0;
+    }
+}
+
 

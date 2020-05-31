@@ -9,6 +9,7 @@ private:
     float Velocity_x=100;
     float Velocity_y=0;
 public:
+    bool kolizja_hero = false;
     Enemy(const float& r);
     void jump(const sf::Time& elapsed, const int& W, const int& H);
     void bounce(const int& W, const int& H);

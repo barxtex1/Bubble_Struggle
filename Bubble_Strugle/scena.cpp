@@ -99,14 +99,23 @@ void Scena::draw(const sf::Time& elp, Player& hero,Enemy *ball)
     {
         window_.draw(*el);
     }
-    window_.draw(*hero.robot);
-    hero.animated(elp,sciany);
     window_.draw(*ball);
     ball->jump(elp,getWidth(),getHeight());
+    window_.draw(*hero.robot);
+    if(hero.kolizja_ball!=true)
+    {
+        hero.animated(elp,sciany);
+    }
+    else
+    {
+        hero.explosion->setPosition(hero.robot->getGlobalBounds().left-40,hero.robot->getGlobalBounds().top);
+        window_.draw(*hero.explosion);
+        hero.kolizja(elp);
+    }
     window_.display();
 }
 
-void Scena::loop(Player& hero,Enemy *ball)
+void Scena::loop(Player& hero,Enemy* ball)
 {
     sf::Clock clock;
     ball = new Enemy(100);
@@ -122,12 +131,19 @@ void Scena::loop(Player& hero,Enemy *ball)
         }
         sf::Time elapsed = clock.restart();
         sf::sleep(sf::milliseconds(1));
-        this->draw(elapsed,hero,ball);
+
         if(sqrt(pow((hero.robot->getGlobalBounds().left+hero.robot->getGlobalBounds().width/2)-(ball->getGlobalBounds().left+ball->getGlobalBounds().width/2),2)
                 +pow((hero.robot->getGlobalBounds().top+hero.robot->getGlobalBounds().height/2)-(ball->getGlobalBounds().top+ball->getGlobalBounds().height/2),2))
                 <ball->getRadius()+20)
         {
-            delete ball;
+            ball->kolizja_hero = true;
+            hero.kolizja_ball = true;
         }
+        else
+        {
+            ball->kolizja_hero = false;
+            hero.kolizja_ball = false;
+        }
+        this->draw(elapsed,hero,ball);
     }
 }

@@ -7,6 +7,7 @@ Enemy::Enemy(const float& r) : sf::CircleShape(r)
     setOutlineThickness(2);
     setOutlineColor(sf::Color::Black);
 }
+
 void Enemy::bounce(const int& W, const int& H)
 {
     if (getGlobalBounds().top+getGlobalBounds().height>=H-200)
@@ -30,7 +31,10 @@ void Enemy::bounce(const int& W, const int& H)
 
 void Enemy::jump(const sf::Time& elapsed, const int& W, const int& H)
 {
-    Velocity_y += elapsed.asSeconds()*200;
-    move(Velocity_x*elapsed.asSeconds(),Velocity_y*elapsed.asSeconds());
-    bounce(W,H);
+    if(kolizja_hero!=true)
+    {
+        Velocity_y += elapsed.asSeconds()*200;
+        move(Velocity_x*elapsed.asSeconds(),Velocity_y*elapsed.asSeconds());
+        bounce(W,H);
+    }
 }
