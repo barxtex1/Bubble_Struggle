@@ -20,7 +20,7 @@ Player::Player(const int& W,const int& H)
 
 void Player::run_right(const sf::Time& elapsed)
 {
-    robot->move(elapsed.asSeconds()*100,0);
+    robot->move(elapsed.asSeconds()*200,0);
     for (int i=0;i<8;i++)
     {
         if(time>i-0.9*i) robot->setTextureRect(frame[i]);
@@ -36,7 +36,7 @@ void Player::run_right(const sf::Time& elapsed)
 
 void Player::run_left(const sf::Time& elapsed)
 {
-    robot->move(elapsed.asSeconds()*-100,0);
+    robot->move(elapsed.asSeconds()*-200,0);
     for (int i=0;i<8;i++)
     {
         if(time>i-0.9*i) robot->setTextureRect(frame[i]);
@@ -61,7 +61,7 @@ void Player::animated(const sf::Time& elapsed,const std::vector<std::unique_ptr<
         {
             if (s->getGlobalBounds().intersects(robot->getGlobalBounds()))
             {
-                robot->move(-100*elapsed.asSeconds(),0);
+                robot->move(-200*elapsed.asSeconds(),0);
             }
         }
     }
@@ -72,7 +72,7 @@ void Player::animated(const sf::Time& elapsed,const std::vector<std::unique_ptr<
         {
             if (s->getGlobalBounds().intersects(robot->getGlobalBounds()))
             {
-                robot->move(100*elapsed.asSeconds(),0);
+                robot->move(200*elapsed.asSeconds(),0);
             }
         }
     }

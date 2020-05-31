@@ -30,7 +30,7 @@ void Enemy::bounce(const int& W, const int& H)
 
 void Enemy::jump(const sf::Time& elapsed, const int& W, const int& H)
 {
-    Velocity_y += elapsed.asSeconds()*100;
+    Velocity_y += elapsed.asSeconds()*200;
     move(Velocity_x*elapsed.asSeconds(),Velocity_y*elapsed.asSeconds());
     bounce(W,H);
 }

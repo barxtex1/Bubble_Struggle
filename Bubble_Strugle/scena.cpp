@@ -123,5 +123,11 @@ void Scena::loop(Player& hero,Enemy *ball)
         sf::Time elapsed = clock.restart();
         sf::sleep(sf::milliseconds(1));
         this->draw(elapsed,hero,ball);
+        if(sqrt(pow((hero.robot->getGlobalBounds().left+hero.robot->getGlobalBounds().width/2)-(ball->getGlobalBounds().left+ball->getGlobalBounds().width/2),2)
+                +pow((hero.robot->getGlobalBounds().top+hero.robot->getGlobalBounds().height/2)-(ball->getGlobalBounds().top+ball->getGlobalBounds().height/2),2))
+                <ball->getRadius()+20)
+        {
+            delete ball;
+        }
     }
 }
