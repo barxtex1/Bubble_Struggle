@@ -88,7 +88,7 @@ int Scena::getHeight()
     return Height;
 }
 
-void Scena::draw(const sf::Time& elp, Player& hero,Enemy *ball)
+void Scena::draw(const sf::Time& elp, Player& hero,Enemy *ball,Weapon* laser)
 {
     window_.clear(sf::Color::Black);
     for(auto& el: tlo)
@@ -112,6 +112,18 @@ void Scena::draw(const sf::Time& elp, Player& hero,Enemy *ball)
         window_.draw(*hero.explosion);
         hero.kolizja(elp);
     }
+    if(fire==true)
+    {
+        window_.draw(*laser->laser_);
+        if(laser->fire_l==true)
+        {
+            laser->Animate(elp);
+        }
+        else
+        {
+            fire = false;
+        }
+    }
     window_.display();
 }
 
@@ -119,6 +131,7 @@ void Scena::loop(Player& hero,Enemy* ball)
 {
     sf::Clock clock;
     ball = new Enemy(100);
+    Weapon* laser;
     while (window_.isOpen())
     {
         sf::Event event;
@@ -128,6 +141,20 @@ void Scena::loop(Player& hero,Enemy* ball)
             {
                 window_.close();
             }
+
+                if (event.type == sf::Event::KeyReleased)
+                {
+                    if(fire!=true)
+                    {
+                        if (event.key.code == sf::Keyboard::Space)
+                        {
+                            laser = new Weapon(hero.robot->getGlobalBounds().left+hero.robot->getGlobalBounds().width/2-5,hero.robot->getGlobalBounds().top+hero.robot->getGlobalBounds().height/2);
+                            fire = true;
+                            laser->fire_l = true;
+                            std::cerr<<"Cos sie dzieje"<<std::endl;
+                        }
+                    }
+                }
         }
         sf::Time elapsed = clock.restart();
         sf::sleep(sf::milliseconds(1));
@@ -144,6 +171,6 @@ void Scena::loop(Player& hero,Enemy* ball)
             ball->kolizja_hero = false;
             hero.kolizja_ball = false;
         }
-        this->draw(elapsed,hero,ball);
+        this->draw(elapsed,hero,ball,laser);
     }
 }

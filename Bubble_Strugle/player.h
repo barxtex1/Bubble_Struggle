@@ -7,7 +7,7 @@
 class Player : public sf::Sprite
 {
 private:
-    float time=0;
+    double time=0;
     bool kolizja_ball = false;
     std::string side="right";
     std::unique_ptr<sf::Texture> textura;

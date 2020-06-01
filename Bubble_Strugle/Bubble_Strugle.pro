@@ -14,10 +14,12 @@ SOURCES += \
         enemy.cpp \
         main.cpp \
         player.cpp \
-        scena.cpp
+        scena.cpp \
+        weapon.cpp
 
 HEADERS += \
     defs.h \
     enemy.h \
     player.h \
-    scena.h
+    scena.h \
+    weapon.h
