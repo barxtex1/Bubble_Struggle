@@ -88,6 +88,39 @@ int Scena::getHeight()
     return Height;
 }
 
+void Scena::Kolizja_B_H(Player& hero,Enemy* ball)
+{
+    if(sqrt(pow((hero.robot->getGlobalBounds().left+hero.robot->getGlobalBounds().width/2)-(ball->getGlobalBounds().left+ball->getGlobalBounds().width/2),2)
+            +pow((hero.robot->getGlobalBounds().top+hero.robot->getGlobalBounds().height/2)-(ball->getGlobalBounds().top+ball->getGlobalBounds().height/2),2))
+            <ball->getRadius()+20)
+    {
+        ball->kolizja_hero = true;
+        hero.kolizja_ball = true;
+    }
+    else
+    {
+        ball->kolizja_hero = false;
+        hero.kolizja_ball = false;
+    }
+}
+
+void Scena::Kolizja_B_W(Enemy* ball,Weapon* laser)
+{
+    if(sqrt(pow((laser->laser_->getGlobalBounds().left+laser->laser_->getGlobalBounds().width/2)-(ball->getGlobalBounds().left+ball->getGlobalBounds().width/2),2)
+            +pow((laser->laser_->getGlobalBounds().top+laser->laser_->getGlobalBounds().height/2)-(ball->getGlobalBounds().top+ball->getGlobalBounds().height/2),2))
+            <ball->getRadius()+25)
+    {
+//        delete laser;
+        ball->kolizja_laser = true;
+    }
+    else
+    {
+        ball->kolizja_laser = false;
+    }
+}
+
+
+
 void Scena::draw(const sf::Time& elp, Player& hero,Enemy *ball,Weapon* laser)
 {
     window_.clear(sf::Color::Black);
@@ -99,8 +132,16 @@ void Scena::draw(const sf::Time& elp, Player& hero,Enemy *ball,Weapon* laser)
     {
         window_.draw(*el);
     }
-    window_.draw(*ball);
-    ball->jump(elp,getWidth(),getHeight());
+    if(ball->kolizja_laser!=true)
+    {
+        window_.draw(*ball);
+        ball->jump(elp,getWidth(),getHeight());
+    }
+    else
+    {
+        delete ball;
+        ball = new Enemy(ball->getRadius()/1.5);
+    }
     window_.draw(*hero.robot);
     if(hero.kolizja_ball!=true)
     {
@@ -117,21 +158,24 @@ void Scena::draw(const sf::Time& elp, Player& hero,Enemy *ball,Weapon* laser)
         window_.draw(*laser->laser_);
         if(laser->fire_l==true)
         {
-            laser->Animate(elp);
+            laser->Animate();
         }
         else
         {
             fire = false;
+            laser->a = 1;
+            delete laser;
         }
     }
     window_.display();
 }
 
-void Scena::loop(Player& hero,Enemy* ball)
+void Scena::loop(Player& hero)
 {
     sf::Clock clock;
-    ball = new Enemy(100);
+    Enemy* ball;
     Weapon* laser;
+    ball = new Enemy(100);
     while (window_.isOpen())
     {
         sf::Event event;
@@ -151,26 +195,18 @@ void Scena::loop(Player& hero,Enemy* ball)
                             laser = new Weapon(hero.robot->getGlobalBounds().left+hero.robot->getGlobalBounds().width/2-5,hero.robot->getGlobalBounds().top+hero.robot->getGlobalBounds().height/2);
                             fire = true;
                             laser->fire_l = true;
-                            std::cerr<<"Cos sie dzieje"<<std::endl;
                         }
                     }
                 }
         }
         sf::Time elapsed = clock.restart();
         sf::sleep(sf::milliseconds(1));
-
-        if(sqrt(pow((hero.robot->getGlobalBounds().left+hero.robot->getGlobalBounds().width/2)-(ball->getGlobalBounds().left+ball->getGlobalBounds().width/2),2)
-                +pow((hero.robot->getGlobalBounds().top+hero.robot->getGlobalBounds().height/2)-(ball->getGlobalBounds().top+ball->getGlobalBounds().height/2),2))
-                <ball->getRadius()+20)
+        Kolizja_B_H(hero,ball);
+        if(fire)
         {
-            ball->kolizja_hero = true;
-            hero.kolizja_ball = true;
-        }
-        else
-        {
-            ball->kolizja_hero = false;
-            hero.kolizja_ball = false;
+            Kolizja_B_W(ball,laser);
         }
         this->draw(elapsed,hero,ball,laser);
     }
 }
+

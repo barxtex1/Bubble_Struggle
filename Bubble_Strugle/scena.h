@@ -19,7 +19,9 @@ public:
     int getWidth();
     int getHeight();
     void draw(const sf::Time& elp, Player& hero,Enemy* ball,Weapon* laser);
-    void loop(Player& hero,Enemy* ball);
+    void loop(Player& hero);
+    void Kolizja_B_H(Player& hero,Enemy* ball);
+    void Kolizja_B_W(Enemy* ball,Weapon* laser);
 };
 
 #endif // SCENA_H

@@ -1,6 +1,6 @@
 #include "enemy.h"
 
-Enemy::Enemy(const float& r) : sf::CircleShape(r)
+Enemy::Enemy(const float& r) : sf::CircleShape(r),radius(r)
 {
     setPosition(100.0, 100.0);
     setFillColor(sf::Color(150, 50, 200));
@@ -33,8 +33,20 @@ void Enemy::jump(const sf::Time& elapsed, const int& W, const int& H)
 {
     if(kolizja_hero!=true)
     {
-        Velocity_y += elapsed.asSeconds()*200;
+        Velocity_y += elapsed.asSeconds()*acceleration_y;
         move(Velocity_x*elapsed.asSeconds(),Velocity_y*elapsed.asSeconds());
         bounce(W,H);
     }
 }
+
+float Enemy::getRadius()
+{
+    return radius;
+}
+
+void Enemy::changeAcceleration_y()
+{
+    acceleration_y = acceleration_y/2;
+}
+
+

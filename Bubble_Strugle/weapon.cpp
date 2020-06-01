@@ -13,21 +13,18 @@ Weapon::Weapon(const float& x, const float& y)
 
 Weapon::~Weapon()
 {
-    std::cerr<<"Jestem w destruktorze"<<std::endl;
+    std::cerr<<"Jestem w destruktorze laser"<<std::endl;
 }
 
-void Weapon::Animate(const sf::Time& elapsed)
+void Weapon::Animate()
 {
-    time += elapsed.asSeconds();
     if(laser_->getGlobalBounds().top>25)
     {
-        for (double i=1;i<time;i+=0.001)
-        {
-            laser_->setScale(1,-i);
-        }
+        laser_->setScale(1,-a);
     }
     else
     {
         fire_l = false;
     }
+    a += 0.05;
 }
