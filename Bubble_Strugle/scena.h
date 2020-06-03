@@ -11,7 +11,7 @@ private:
     sf::RenderWindow window_;
     int Width,Height;
     bool fire = false;
-    bool gowno = false;
+    float radius,x,y;
     std::vector<std::unique_ptr<sf::Sprite>> tlo;
     std::vector<std::unique_ptr<sf::Sprite>> sciany;
     std::vector<std::unique_ptr<sf::Texture>> textury;
