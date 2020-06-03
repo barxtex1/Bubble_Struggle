@@ -97,11 +97,7 @@ void Scena::Kolizja_B_H(Player& hero,Enemy* ball)
         ball->kolizja_hero = true;
         hero.kolizja_ball = true;
     }
-    else
-    {
-        ball->kolizja_hero = false;
-        hero.kolizja_ball = false;
-    }
+
 }
 
 void Scena::Kolizja_B_W(Enemy* ball,Weapon* laser)
@@ -110,18 +106,18 @@ void Scena::Kolizja_B_W(Enemy* ball,Weapon* laser)
             +pow((laser->laser_->getGlobalBounds().top+laser->laser_->getGlobalBounds().height/2)-(ball->getGlobalBounds().top+ball->getGlobalBounds().height/2),2))
             <ball->getRadius()+25)
     {
-//        delete laser;
+        laser->kolizja_ball = true;
         ball->kolizja_laser = true;
     }
     else
     {
-        ball->kolizja_laser = false;
+        laser->kolizja_ball = false;
     }
 }
 
 
 
-void Scena::draw(const sf::Time& elp, Player& hero,Enemy *ball,Weapon* laser)
+void Scena::draw(const sf::Time& elp,Player& hero,Enemy *ball,Weapon* laser)
 {
     window_.clear(sf::Color::Black);
     for(auto& el: tlo)
@@ -132,16 +128,23 @@ void Scena::draw(const sf::Time& elp, Player& hero,Enemy *ball,Weapon* laser)
     {
         window_.draw(*el);
     }
-    if(ball->kolizja_laser!=true)
+
+    //animacja pilki i rozbicie na dwie mniejsze
+
+    window_.draw(*ball);
+    if(ball->kolizja_laser)
     {
-        window_.draw(*ball);
+        ball->kolizja_laser = false;
+        delete ball;
+        ball = new Enemy(ball->getRadius()/1.5,ball->getGlobalBounds().left,ball->getGlobalBounds().top);
+    }
+    if(ball->kolizja_hero!=true)
+    {
         ball->jump(elp,getWidth(),getHeight());
     }
-    else
-    {
-        delete ball;
-        ball = new Enemy(ball->getRadius()/1.5);
-    }
+
+
+    // animacja hero i wybuch przy kolizji z pilka
     window_.draw(*hero.robot);
     if(hero.kolizja_ball!=true)
     {
@@ -153,12 +156,21 @@ void Scena::draw(const sf::Time& elp, Player& hero,Enemy *ball,Weapon* laser)
         window_.draw(*hero.explosion);
         hero.kolizja(elp);
     }
+
+    // animacja lasera oraz kolizja ze sciana i pilka
     if(fire==true)
     {
         window_.draw(*laser->laser_);
         if(laser->fire_l==true)
         {
             laser->Animate();
+            if(laser->kolizja_ball==true)
+            {
+                fire = false;
+                laser->fire_l = false;
+                laser->a = 1;
+                delete laser;
+            }
         }
         else
         {
@@ -173,9 +185,8 @@ void Scena::draw(const sf::Time& elp, Player& hero,Enemy *ball,Weapon* laser)
 void Scena::loop(Player& hero)
 {
     sf::Clock clock;
-    Enemy* ball;
+    Enemy* ball = new Enemy(100,100,100);
     Weapon* laser;
-    ball = new Enemy(100);
     while (window_.isOpen())
     {
         sf::Event event;
@@ -200,7 +211,7 @@ void Scena::loop(Player& hero)
                 }
         }
         sf::Time elapsed = clock.restart();
-        sf::sleep(sf::milliseconds(1));
+        sf::sleep(sf::milliseconds(1));        
         Kolizja_B_H(hero,ball);
         if(fire)
         {

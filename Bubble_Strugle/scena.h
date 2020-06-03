@@ -11,6 +11,7 @@ private:
     sf::RenderWindow window_;
     int Width,Height;
     bool fire = false;
+    bool gowno = false;
     std::vector<std::unique_ptr<sf::Sprite>> tlo;
     std::vector<std::unique_ptr<sf::Sprite>> sciany;
     std::vector<std::unique_ptr<sf::Texture>> textury;
@@ -18,7 +19,7 @@ public:
     Scena(const int& W,const int& H);
     int getWidth();
     int getHeight();
-    void draw(const sf::Time& elp, Player& hero,Enemy* ball,Weapon* laser);
+    void draw(const sf::Time& elp,Player& hero,Enemy* ball,Weapon* laser);
     void loop(Player& hero);
     void Kolizja_B_H(Player& hero,Enemy* ball);
     void Kolizja_B_W(Enemy* ball,Weapon* laser);

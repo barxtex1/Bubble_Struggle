@@ -13,7 +13,8 @@ private:
 public:
     bool kolizja_hero = false;
     bool kolizja_laser = false;
-    Enemy(const float& r);
+    Enemy(const float& r,const float& x,const float& y);
+    ~Enemy();
     void jump(const sf::Time& elapsed, const int& W, const int& H);
     void bounce(const int& W, const int& H);
     float getRadius();
