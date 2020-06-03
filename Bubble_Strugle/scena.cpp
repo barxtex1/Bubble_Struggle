@@ -135,9 +135,11 @@ void Scena::draw(const sf::Time& elp,Player& hero,Enemy *ball,Weapon* laser)
     if(ball->kolizja_laser)
     {
         ball->kolizja_laser = false;
-        Enemy* temp = new Enemy(ball->getRadius()/1.5,ball->getGlobalBounds().left+ball->getGlobalBounds().width/2,ball->getGlobalBounds().top+ball->getGlobalBounds().height/2);
+        radius = ball->getRadius()/1.5;
+        x = ball->getGlobalBounds().left+ball->getGlobalBounds().width/2;
+        y = ball->getGlobalBounds().top+ball->getGlobalBounds().height/2;
         delete ball;
-        ball = temp;
+        ball = new Enemy(radius,x,y);
     }
     if(ball->kolizja_hero!=true)
     {
