@@ -18,6 +18,8 @@ public:
     void jump(const sf::Time& elapsed, const int& W, const int& H);
     void bounce(const int& W, const int& H);
     float getRadius();
+    void setVelocity_x(const float& v);
+    float getVelocity_x();
     void changeAcceleration_y();
 };
 

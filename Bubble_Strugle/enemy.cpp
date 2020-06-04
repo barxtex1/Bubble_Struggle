@@ -46,6 +46,17 @@ void Enemy::changeAcceleration_y()
     acceleration_y = acceleration_y/2;
 }
 
+float Enemy::getVelocity_x()
+{
+    return Velocity_x;
+}
+
+void Enemy::setVelocity_x(const float& v)
+{
+    Velocity_x = v;
+}
+
+
 Enemy::~Enemy()
 {
     std::cerr<<"Jestem w destruktorze ball"<<std::endl;
