@@ -12,10 +12,11 @@ private:
     int Width,Height;
     bool fire = false;
     float radius,x,y,V_x;
+    bool dodano = false;
     std::vector<std::unique_ptr<sf::Sprite>> tlo;
     std::vector<std::unique_ptr<sf::Sprite>> sciany;
     std::vector<std::unique_ptr<sf::Texture>> textury;
-    std::vector<Enemy> Balls;
+    std::vector<Enemy*> Balls;
 public:
     Scena(const int& W,const int& H);
     int getWidth();
