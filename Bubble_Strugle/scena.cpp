@@ -113,10 +113,6 @@ void Scena::Kolizja_B_W(Weapon* laser)
             laser->kolizja_ball = true;
             ball->kolizja_laser = true;
         }
-        else
-        {
-            laser->kolizja_ball = false;
-        }
     }
 }
 
@@ -164,9 +160,9 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser)
     if(dodano==true)
     {
         Balls.emplace_back() = new Enemy(radius,x,y);
+        dodano = false;
         std::cerr<<Balls.size()<<std::endl;
     }
-    dodano = false;
 
     // animacja hero i wybuch przy kolizji z pilka
     window_.draw(*hero.robot);
@@ -193,6 +189,7 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser)
                 fire = false;
                 laser->fire_l = false;
                 laser->a = 1;
+                laser->kolizja_ball = false;
                 delete laser;
             }
         }
