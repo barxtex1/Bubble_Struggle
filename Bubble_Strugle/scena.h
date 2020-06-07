@@ -8,7 +8,11 @@
 class Scena
 {
 private:
+    int ECTS = 0;
+    bool wygrana;
     sf::RenderWindow window_;
+    sf::Font font;
+    sf::Text text;
     int Width,Height;
     bool fire = false;
     float radius = 100;
@@ -27,6 +31,7 @@ public:
     void Kolizja_B_H(Player& hero);
     void Kolizja_B_W(Weapon* laser);
     void rozbicie(Enemy* b);
+    int getECTS();
 };
 
 #endif // SCENA_H

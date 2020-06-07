@@ -2,6 +2,12 @@
 
 Scena::Scena(const int& W,const int& H) : window_(sf::VideoMode(W, H), "Bubble Strugle"),Width(W),Height(H)
 {
+    font.loadFromFile("arial.ttf");
+    text = sf::Text("CONGRATULATIONS!",font);
+    text.setCharacterSize(50);
+    text.setStyle(sf::Text::Bold);
+    text.setFillColor(sf::Color::Red);
+    text.setPosition(W/2-(text.getGlobalBounds().width/2),H/2);
     std::unique_ptr<sf::Texture> bg01 = std::make_unique<sf::Texture>();
     if(!bg01->loadFromFile("Source/Universe/bkgd_0.png")){
         throw("Could not load texture");
@@ -88,6 +94,12 @@ int Scena::getHeight()
     return Height;
 }
 
+int Scena::getECTS()
+{
+    return ECTS;
+}
+
+
 void Scena::Kolizja_B_H(Player& hero)
 {
     for(auto& ball : Balls)
@@ -126,7 +138,10 @@ void Scena::rozbicie(Enemy* b)
     lim = b->getLimit()-50;
     auto it = std::find(Balls.begin(),Balls.end(),b);
     Balls.erase(it);
-    dodano = true;
+    if(lim>=250)
+    {
+        dodano = true;
+    }
 }
 
 
@@ -134,12 +149,6 @@ void Scena::rozbicie(Enemy* b)
 void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser)
 {
     window_.clear(sf::Color::Black);
-    //Sprawdzanie czy wystepuje kolizja
-    Kolizja_B_H(hero);
-    if(fire)
-    {
-        Kolizja_B_W(laser);
-    }
 
     for(auto& el: tlo)
     {
@@ -148,6 +157,13 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser)
     for(auto& el: sciany)
     {
         window_.draw(*el);
+    }
+
+    //Sprawdzanie czy wystepuje kolizja
+    Kolizja_B_H(hero);
+    if(fire)
+    {
+        Kolizja_B_W(laser);
     }
 
     //animacja pilki i rozbicie na dwie mniejsze
@@ -206,6 +222,14 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser)
             delete laser;
         }
     }
+
+    // Sprawdzanie czy gracz wygral
+    if(Balls.empty())
+    {
+        window_.draw(text);
+        ECTS++;
+        wygrana = true;
+    }
     window_.display();
 }
 
@@ -214,8 +238,13 @@ void Scena::loop(Player& hero)
     sf::Clock clock;
     Balls.emplace_back() = new Enemy(100,100,100,350,100);
     Weapon* laser;
+    wygrana = false;
     while (window_.isOpen())
     {
+        if(wygrana==true)
+        {
+            break;
+        }
         sf::Event event;
         while (window_.pollEvent(event))
         {
@@ -223,23 +252,21 @@ void Scena::loop(Player& hero)
             {
                 window_.close();
             }
-
-                if (event.type == sf::Event::KeyReleased)
+            if (event.type == sf::Event::KeyReleased)
+            {
+                if(fire!=true)
                 {
-                    if(fire!=true)
+                    if (event.key.code == sf::Keyboard::Space)
                     {
-                        if (event.key.code == sf::Keyboard::Space)
-                        {
-                            laser = new Weapon(hero.robot->getGlobalBounds().left+hero.robot->getGlobalBounds().width/2-5,hero.robot->getGlobalBounds().top+hero.robot->getGlobalBounds().height/2);
-                            fire = true;
-                            laser->fire_l = true;
-                        }
+                        laser = new Weapon(hero.robot->getGlobalBounds().left+hero.robot->getGlobalBounds().width/2-5,hero.robot->getGlobalBounds().top+hero.robot->getGlobalBounds().height/2);
+                        fire = true;
+                        laser->fire_l = true;
                     }
                 }
+            }
         }
         sf::Time elapsed = clock.restart();
         sf::sleep(sf::milliseconds(1));        
-
         this->draw(elapsed,hero,laser);
     }
 }
