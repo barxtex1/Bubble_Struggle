@@ -9,7 +9,8 @@ class Scena
 {
 private:
     int ECTS = 0;
-    bool wygrana;
+    bool dodano = false;
+    bool wygrana = false;
     sf::RenderWindow window_;
     sf::Font font;
     sf::Text text;
@@ -17,7 +18,6 @@ private:
     bool fire = false;
     float radius = 100;
     float x,y,V_x,lim;
-    bool dodano = false;
     std::vector<std::unique_ptr<sf::Sprite>> tlo;
     std::vector<std::unique_ptr<sf::Sprite>> sciany;
     std::vector<std::unique_ptr<sf::Texture>> textury;

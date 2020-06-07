@@ -125,6 +125,20 @@ void Scena::Kolizja_B_W(Weapon* laser)
             laser->kolizja_ball = true;
             ball->kolizja_laser = true;
         }
+        if(sqrt(pow((laser->laser_->getGlobalBounds().left+laser->laser_->getGlobalBounds().width/2)-(ball->getGlobalBounds().left+ball->getGlobalBounds().width/2),2)
+                +pow((laser->laser_->getGlobalBounds().top)-(ball->getGlobalBounds().top+ball->getGlobalBounds().height/2),2))
+                <ball->getRadius()-25)
+        {
+            laser->kolizja_ball = true;
+            ball->kolizja_laser = true;
+        }
+        if(sqrt(pow((laser->laser_->getGlobalBounds().left+laser->laser_->getGlobalBounds().width/2)-(ball->getGlobalBounds().left+ball->getGlobalBounds().width/2),2)
+                +pow((laser->laser_->getGlobalBounds().top+laser->laser_->getGlobalBounds().height)-(ball->getGlobalBounds().top+ball->getGlobalBounds().height/2),2))
+                <ball->getRadius())
+        {
+            laser->kolizja_ball = true;
+            ball->kolizja_laser = true;
+        }
     }
 }
 
@@ -236,12 +250,20 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser)
 void Scena::loop(Player& hero)
 {
     sf::Clock clock;
-    Balls.emplace_back() = new Enemy(100,100,100,350,100);
+    if(ECTS == 0)
+    {
+        Balls.emplace_back() = new Enemy(100,100,100,350,100);
+    }
+    if(ECTS == 1)
+    {
+        Balls.emplace_back() = new Enemy(100,100,100,350,100);
+        Balls.emplace_back() = new Enemy(100,window_.getSize().x-300,100,350,-100);
+    }
     Weapon* laser;
     wygrana = false;
     while (window_.isOpen())
     {
-        if(wygrana==true)
+        if(wygrana == true)
         {
             break;
         }
