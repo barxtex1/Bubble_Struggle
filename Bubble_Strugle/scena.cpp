@@ -116,6 +116,19 @@ void Scena::Kolizja_B_W(Weapon* laser)
     }
 }
 
+void Scena::rozbicie(Enemy* b)
+{
+    b->kolizja_laser = false;
+    radius = b->getRadius()/2;
+    x = b->getGlobalBounds().left+b->getGlobalBounds().width/2;
+    y = b->getGlobalBounds().top+b->getGlobalBounds().height/2-radius;
+    V_x = std::abs(b->getVelocity_x());
+    lim = b->getLimit()-50;
+    auto it = std::find(Balls.begin(),Balls.end(),b);
+    Balls.erase(it);
+    dodano = true;
+}
+
 
 
 void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser)
@@ -143,25 +156,18 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser)
         window_.draw(*b);
         if(b->kolizja_laser==true)
         {
-            b->kolizja_laser = false;
-            radius = b->getRadius()/1.5;
-            x = b->getGlobalBounds().left+b->getGlobalBounds().width/2;
-            y = b->getGlobalBounds().top+b->getGlobalBounds().height/2;
-            V_x = -b->getVelocity_x();
-            b->setVelocity_x(V_x);
-            b->setRadius(radius);
-            dodano = true;
+            rozbicie(b);
         }
         if(b->kolizja_hero!=true)
         {
-            b->jump(elp,getWidth(),getHeight());
+            b->step(elp,getWidth(),getHeight());
         }
     }
     if(dodano==true)
     {
-        Balls.emplace_back() = new Enemy(radius,x,y);
+        Balls.emplace_back() = new Enemy(radius,x-2*radius,y,lim,-std::abs(V_x));
+        Balls.emplace_back() = new Enemy(radius,x,y,lim,V_x);
         dodano = false;
-        std::cerr<<Balls.size()<<std::endl;
     }
 
     // animacja hero i wybuch przy kolizji z pilka
@@ -206,7 +212,7 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser)
 void Scena::loop(Player& hero)
 {
     sf::Clock clock;
-    Balls.emplace_back() = new Enemy(100,100,100);
+    Balls.emplace_back() = new Enemy(100,100,100,350,100);
     Weapon* laser;
     while (window_.isOpen())
     {

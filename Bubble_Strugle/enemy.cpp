@@ -1,6 +1,6 @@
 #include "enemy.h"
 
-Enemy::Enemy(const float& r,const float& x,const float& y) : sf::CircleShape(r),radius(r)
+Enemy::Enemy(const float& r,const float& x,const float& y,const float& l,const float& V_x_) : sf::CircleShape(r), radius(r),limit(l),Velocity_x(V_x_)
 {
     setPosition(x, y);
     setFillColor(sf::Color(150, 50, 200));
@@ -12,7 +12,8 @@ void Enemy::bounce(const int& W, const int& H)
 {
     if (getGlobalBounds().top+getGlobalBounds().height>=H-200)
     {
-        Velocity_y= -std::abs(Velocity_y);
+        Velocity_y = -std::abs(Velocity_y);
+        Velocity_y = -limit;
     }
     else if(getGlobalBounds().top<=25)
     {
@@ -29,7 +30,7 @@ void Enemy::bounce(const int& W, const int& H)
 }
 
 
-void Enemy::jump(const sf::Time& elapsed, const int& W, const int& H)
+void Enemy::step(const sf::Time& elapsed, const int& W, const int& H)
 {
     Velocity_y += elapsed.asSeconds()*acceleration_y;
     move(Velocity_x*elapsed.asSeconds(),Velocity_y*elapsed.asSeconds());
@@ -54,6 +55,16 @@ float Enemy::getVelocity_x()
 void Enemy::setVelocity_x(const float& v)
 {
     Velocity_x = v;
+}
+
+float Enemy::getLimit()
+{
+    return limit;
+}
+
+void Enemy::setLimit(const float& l)
+{
+    limit = l;
 }
 
 

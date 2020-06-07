@@ -11,7 +11,8 @@ private:
     sf::RenderWindow window_;
     int Width,Height;
     bool fire = false;
-    float radius,x,y,V_x;
+    float radius = 100;
+    float x,y,V_x,lim;
     bool dodano = false;
     std::vector<std::unique_ptr<sf::Sprite>> tlo;
     std::vector<std::unique_ptr<sf::Sprite>> sciany;
@@ -25,6 +26,7 @@ public:
     void loop(Player& hero);
     void Kolizja_B_H(Player& hero);
     void Kolizja_B_W(Weapon* laser);
+    void rozbicie(Enemy* b);
 };
 
 #endif // SCENA_H
