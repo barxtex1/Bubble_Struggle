@@ -18,7 +18,7 @@ private:
     std::vector<sf::IntRect>frame_exp;
 
 public:
-    Player(const int& W,const int& H);
+    Player();
     friend class Scena;
     void animated(const sf::Time& elapsed,const std::vector<std::unique_ptr<sf::Sprite>> &sciany);
     void run_right(const sf::Time& elapsed);

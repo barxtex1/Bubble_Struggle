@@ -4,10 +4,17 @@ Scena::Scena(const int& W,const int& H) : window_(sf::VideoMode(W, H), "Bubble S
 {
     font.loadFromFile("arial.ttf");
     text = sf::Text("CONGRATULATIONS!",font);
+    text_lose = sf::Text("TRY AGAIN!",font);
     text.setCharacterSize(50);
     text.setStyle(sf::Text::Bold);
     text.setFillColor(sf::Color::Red);
     text.setPosition(W/2-(text.getGlobalBounds().width/2),H/2);
+    text_lose.setCharacterSize(50);
+    text_lose.setStyle(sf::Text::Bold);
+    text_lose.setFillColor(sf::Color::Red);
+    text_lose.setPosition(W/2-(text_lose.getGlobalBounds().width/2),H/2);
+
+
     std::unique_ptr<sf::Texture> bg01 = std::make_unique<sf::Texture>();
     if(!bg01->loadFromFile("Source/Universe/bkgd_0.png")){
         throw("Could not load texture");
@@ -211,6 +218,8 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser)
         hero.explosion->setPosition(hero.robot->getGlobalBounds().left-40,hero.robot->getGlobalBounds().top);
         window_.draw(*hero.explosion);
         hero.kolizja(elp);
+        window_.draw(text_lose);
+        sleep += elp.asSeconds();
     }
 
     // animacja lasera oraz kolizja ze sciana i pilka
@@ -237,12 +246,24 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser)
         }
     }
 
-    // Sprawdzanie czy gracz wygral
+    // Sprawdzanie czy gracz wygral czy przegral
     if(Balls.empty())
     {
         window_.draw(text);
-        ECTS++;
-        wygrana = true;
+        sleep += elp.asSeconds();
+    }
+    if(sleep>2)
+    {
+        if(Balls.empty())
+        {
+            wygrana = true;
+        }
+        if(hero.kolizja_ball)
+        {
+            przegrana = true;
+            hero.kolizja_ball = false;
+            Balls.clear();
+        }
     }
     window_.display();
 }
@@ -250,6 +271,7 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser)
 void Scena::loop(Player& hero)
 {
     sf::Clock clock;
+    hero.robot->setPosition(getWidth()/2-25,getHeight()-329);
     if(ECTS == 0)
     {
         Balls.emplace_back() = new Enemy(100,100,100,350,100);
@@ -261,9 +283,16 @@ void Scena::loop(Player& hero)
     }
     Weapon* laser;
     wygrana = false;
+    przegrana = false;
+    sleep = 0;
     while (window_.isOpen())
     {
         if(wygrana == true)
+        {
+            ECTS++;
+            break;
+        }
+        if(przegrana == true)
         {
             break;
         }

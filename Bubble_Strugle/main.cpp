@@ -3,7 +3,7 @@
 int main()
 {
     Scena s(1000,800);
-    Player hero(s.getWidth(),s.getHeight());
+    Player hero;
     while(s.getECTS()!=2)
     {
         if(s.getECTS()==0)

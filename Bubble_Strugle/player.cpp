@@ -1,6 +1,6 @@
 #include "player.h"
 
-Player::Player(const int& W,const int& H)
+Player::Player()
 {
     //add robot
     textura = std::make_unique<sf::Texture>();
@@ -12,7 +12,6 @@ Player::Player(const int& W,const int& H)
     robot->setTextureRect(sf::IntRect(0, 0, 192, 256));
     robot->setOrigin(robot->getLocalBounds().width/2,0);
     robot->setScale(0.5,0.5);
-    robot->setPosition(W/2-25,H-329);
     for (int i = 0;i<=1344;i+=192)
     {
         frame.emplace_back(sf::IntRect(i,1024, 192, 256));

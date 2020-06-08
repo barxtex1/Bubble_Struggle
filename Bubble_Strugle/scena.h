@@ -11,9 +11,12 @@ private:
     int ECTS = 0;
     bool dodano = false;
     bool wygrana = false;
+    bool przegrana = false;
+    float sleep = 0;
     sf::RenderWindow window_;
     sf::Font font;
     sf::Text text;
+    sf::Text text_lose;
     int Width,Height;
     bool fire = false;
     float radius = 100;
