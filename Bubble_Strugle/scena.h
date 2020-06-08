@@ -26,7 +26,6 @@ private:
     std::vector<std::unique_ptr<sf::Sprite>> sciany;
     std::vector<std::unique_ptr<sf::Texture>> textury;
     std::vector<Enemy*> Balls;
-    std::vector<std::unique_ptr<sf::Sprite>> life_;
 public:
     Scena(const int& W,const int& H);
     int getWidth();

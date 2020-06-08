@@ -183,10 +183,14 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid)
     // Widgets
 
     window_.draw(*wid.czas);
-    for(auto& l : life_)
+    for(auto& l : wid.life_)
     {
         window_.draw(*l);
     }
+    window_.draw(wid.text_ects);
+    wid.numbers->setTextureRect(wid.frame_numb[5]);
+    window_.draw(*wid.numbers);
+
 //    //Sprawdzanie czy wystepuje kolizja
 //    Kolizja_B_H(hero);
 //    if(fire)
@@ -279,11 +283,6 @@ void Scena::loop(Player& hero)
 {
     sf::Clock clock;
     Widgets wid(getWidth(),getHeight());
-    for(int i=0;i<3;i++)
-    {
-        life_.emplace_back(wid.zycie);
-        life_[i]->setPosition(25,getHeight()-life_[i]->getGlobalBounds().height-25);
-    }
     hero.robot->setPosition(getWidth()/2-25,getHeight()-329);
     if(ECTS == 0)
     {

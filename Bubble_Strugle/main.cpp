@@ -6,14 +6,7 @@ int main()
     Player hero;
     while(s.getECTS()!=2)
     {
-        if(s.getECTS()==0)
-        {
-            s.loop(hero);
-        }
-        if(s.getECTS()==1)
-        {
-            s.loop(hero);
-        }
+        s.loop(hero);
     }
     return 0;
 }
