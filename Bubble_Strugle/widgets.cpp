@@ -1,6 +1,6 @@
 #include "widgets.h"
 
-Widgets::Widgets(const float& W, const float& H)
+Widgets::Widgets(const float& W, const float& H, const int& n_of_life)
 {
     // add time
     textura_time = std::make_unique<sf::Texture>();
@@ -19,7 +19,7 @@ Widgets::Widgets(const float& W, const float& H)
     if(!textura_life->loadFromFile("Source/Robot/PNG/Parts HD/headShock.png")){
         throw("Could not load texture");
     }
-    for(int i=0;i<3;i++)
+    for(int i=0;i<n_of_life;i++)
     {
         zycie = std::make_unique<sf::Sprite>();
         zycie->setTexture(*textura_life);
@@ -53,3 +53,17 @@ Widgets::Widgets(const float& W, const float& H)
     frame_numb.emplace_back(sf::IntRect(155,0, 32, 50)); // 5
 
 }
+
+void Widgets::Animate_time()
+{
+    if(czas->getGlobalBounds().width>1)
+    {
+        czas->setScale(3,b);
+    }
+    else
+    {
+        end_time = true;
+    }
+    b -= 0.004;
+}
+

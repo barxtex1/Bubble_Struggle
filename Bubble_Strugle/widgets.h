@@ -16,8 +16,11 @@ private:
     sf::Font font_;
     sf::Text text_ects;
     std::vector<sf::IntRect>frame_numb;
+    double b = 25.6;
+    bool end_time = false;
 public:
-    Widgets(const float& W, const float& H);
+    Widgets(const float& W, const float& H, const int& n_of_life);
+    void Animate_time();
     friend class Scena;
 };
 

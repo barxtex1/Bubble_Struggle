@@ -14,6 +14,7 @@ private:
     bool wygrana = false;
     bool przegrana = false;
     float sleep = 0;
+    int numb_of_life = 3;
     sf::RenderWindow window_;
     sf::Font font;
     sf::Text text;
@@ -36,6 +37,7 @@ public:
     void Kolizja_B_W(Weapon* laser);
     void rozbicie(Enemy* b);
     int getECTS();
+    int getNofLife();
 };
 
 #endif // SCENA_H
