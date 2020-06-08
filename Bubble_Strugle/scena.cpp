@@ -3,7 +3,7 @@
 Scena::Scena(const int& W,const int& H) : window_(sf::VideoMode(W, H), "Bubble Strugle"),Width(W),Height(H)
 {
     font.loadFromFile("arial.ttf");
-    text = sf::Text("CONGRATULATIONS!",font);
+    text = sf::Text("CONGRATULATIONS! +1 ECTS",font);
     text_lose = sf::Text("TRY AGAIN!",font);
     text.setCharacterSize(50);
     text.setStyle(sf::Text::Bold);
@@ -112,7 +112,6 @@ int Scena::getNofLife()
 }
 
 
-
 void Scena::Kolizja_B_H(Player& hero)
 {
     for(auto& ball : Balls)
@@ -201,6 +200,7 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid)
     wid.numbers->setTextureRect(wid.frame_numb[ECTS]);
     window_.draw(*wid.numbers);
 
+
     //Sprawdzanie czy wystepuje kolizja
     Kolizja_B_H(hero);
     if(fire)
@@ -209,6 +209,7 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid)
     }
 
     //animacja pilki i rozbicie na dwie mniejsze
+
     for(auto& b : Balls)
     {
         window_.draw(*b);
@@ -216,7 +217,7 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid)
         {
             rozbicie(b);
         }
-        if(b->kolizja_hero!=true)
+        if(b->kolizja_hero!=true && wid.end_time!=true)
         {
             b->step(elp,getWidth(),getHeight());
         }
@@ -273,16 +274,22 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid)
         window_.draw(text);
         sleep += elp.asSeconds();
     }
+    if(wid.end_time)
+    {
+        window_.draw(text_lose);
+        sleep += elp.asSeconds();
+    }
     if(sleep>2)
     {
         if(Balls.empty())
         {
             wygrana = true;
         }
-        if(hero.kolizja_ball)
+        if(hero.kolizja_ball || wid.end_time)
         {
             przegrana = true;
             hero.kolizja_ball = false;
+            wid.end_time = false;
             numb_of_life--;
             Balls.clear();
         }
@@ -304,10 +311,18 @@ void Scena::loop(Player& hero)
         Balls.emplace_back() = new Enemy(100,100,100,350,100);
         Balls.emplace_back() = new Enemy(100,window_.getSize().x-300,100,350,-100);
     }
+    if(ECTS == 2)
+    {
+        for(int i=0;i<8;i++)
+        {
+            Balls.emplace_back() = new Enemy(20,50+i*40,50+i*40,250,100);
+        }
+    }
     Weapon* laser;
     wygrana = false;
     przegrana = false;
     sleep = 0;
+
     while (window_.isOpen())
     {
         if(wygrana == true)
