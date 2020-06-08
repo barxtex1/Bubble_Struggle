@@ -15,11 +15,13 @@ SOURCES += \
         main.cpp \
         player.cpp \
         scena.cpp \
-        weapon.cpp
+        weapon.cpp \
+        widgets.cpp
 
 HEADERS += \
     defs.h \
     enemy.h \
     player.h \
     scena.h \
-    weapon.h
+    weapon.h \
+    widgets.h

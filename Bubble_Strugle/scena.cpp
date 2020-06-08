@@ -167,7 +167,7 @@ void Scena::rozbicie(Enemy* b)
 
 
 
-void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser)
+void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid)
 {
     window_.clear(sf::Color::Black);
 
@@ -180,97 +180,110 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser)
         window_.draw(*el);
     }
 
-    //Sprawdzanie czy wystepuje kolizja
-    Kolizja_B_H(hero);
-    if(fire)
-    {
-        Kolizja_B_W(laser);
-    }
+    // Widgets
 
-    //animacja pilki i rozbicie na dwie mniejsze
-    for(auto& b : Balls)
+    window_.draw(*wid.czas);
+    for(auto& l : life_)
     {
-        window_.draw(*b);
-        if(b->kolizja_laser==true)
-        {
-            rozbicie(b);
-        }
-        if(b->kolizja_hero!=true)
-        {
-            b->step(elp,getWidth(),getHeight());
-        }
+        window_.draw(*l);
     }
-    if(dodano==true)
-    {
-        Balls.emplace_back() = new Enemy(radius,x-2*radius,y,lim,-std::abs(V_x));
-        Balls.emplace_back() = new Enemy(radius,x,y,lim,V_x);
-        dodano = false;
-    }
+//    //Sprawdzanie czy wystepuje kolizja
+//    Kolizja_B_H(hero);
+//    if(fire)
+//    {
+//        Kolizja_B_W(laser);
+//    }
 
-    // animacja hero i wybuch przy kolizji z pilka
-    window_.draw(*hero.robot);
-    if(hero.kolizja_ball!=true)
-    {
-        hero.animated(elp,sciany);
-    }
-    else
-    {
-        hero.explosion->setPosition(hero.robot->getGlobalBounds().left-40,hero.robot->getGlobalBounds().top);
-        window_.draw(*hero.explosion);
-        hero.kolizja(elp);
-        window_.draw(text_lose);
-        sleep += elp.asSeconds();
-    }
+//    //animacja pilki i rozbicie na dwie mniejsze
+//    for(auto& b : Balls)
+//    {
+//        window_.draw(*b);
+//        if(b->kolizja_laser==true)
+//        {
+//            rozbicie(b);
+//        }
+//        if(b->kolizja_hero!=true)
+//        {
+//            b->step(elp,getWidth(),getHeight());
+//        }
+//    }
+//    if(dodano==true)
+//    {
+//        Balls.emplace_back() = new Enemy(radius,x-2*radius,y,lim,-std::abs(V_x));
+//        Balls.emplace_back() = new Enemy(radius,x,y,lim,V_x);
+//        dodano = false;
+//    }
 
-    // animacja lasera oraz kolizja ze sciana i pilka
-    if(fire==true)
-    {
-        window_.draw(*laser->laser_);
-        if(laser->fire_l==true)
-        {
-            laser->Animate();
-            if(laser->kolizja_ball==true)
-            {
-                fire = false;
-                laser->fire_l = false;
-                laser->a = 1;
-                laser->kolizja_ball = false;
-                delete laser;
-            }
-        }
-        else
-        {
-            fire = false;
-            laser->a = 1;
-            delete laser;
-        }
-    }
+//    // animacja hero i wybuch przy kolizji z pilka
+//    window_.draw(*hero.robot);
+//    if(hero.kolizja_ball!=true)
+//    {
+//        hero.animated(elp,sciany);
+//    }
+//    else
+//    {
+//        hero.explosion->setPosition(hero.robot->getGlobalBounds().left-40,hero.robot->getGlobalBounds().top);
+//        window_.draw(*hero.explosion);
+//        hero.kolizja(elp);
+//        window_.draw(text_lose);
+//        sleep += elp.asSeconds();
+//    }
 
-    // Sprawdzanie czy gracz wygral czy przegral
-    if(Balls.empty())
-    {
-        window_.draw(text);
-        sleep += elp.asSeconds();
-    }
-    if(sleep>2)
-    {
-        if(Balls.empty())
-        {
-            wygrana = true;
-        }
-        if(hero.kolizja_ball)
-        {
-            przegrana = true;
-            hero.kolizja_ball = false;
-            Balls.clear();
-        }
-    }
+//    // animacja lasera oraz kolizja ze sciana i pilka
+//    if(fire==true)
+//    {
+//        window_.draw(*laser->laser_);
+//        if(laser->fire_l==true)
+//        {
+//            laser->Animate();
+//            if(laser->kolizja_ball==true)
+//            {
+//                fire = false;
+//                laser->fire_l = false;
+//                laser->a = 1;
+//                laser->kolizja_ball = false;
+//                delete laser;
+//            }
+//        }
+//        else
+//        {
+//            fire = false;
+//            laser->a = 1;
+//            delete laser;
+//        }
+//    }
+
+//    // Sprawdzanie czy gracz wygral czy przegral
+//    if(Balls.empty())
+//    {
+//        window_.draw(text);
+//        sleep += elp.asSeconds();
+//    }
+//    if(sleep>2)
+//    {
+//        if(Balls.empty())
+//        {
+//            wygrana = true;
+//        }
+//        if(hero.kolizja_ball)
+//        {
+//            przegrana = true;
+//            hero.kolizja_ball = false;
+//            Balls.clear();
+//        }
+//    }
     window_.display();
 }
 
 void Scena::loop(Player& hero)
 {
     sf::Clock clock;
+    Widgets wid(getWidth(),getHeight());
+    for(int i=0;i<3;i++)
+    {
+        life_.emplace_back(wid.zycie);
+        life_[i]->setPosition(25,getHeight()-life_[i]->getGlobalBounds().height-25);
+    }
     hero.robot->setPosition(getWidth()/2-25,getHeight()-329);
     if(ECTS == 0)
     {
@@ -318,7 +331,7 @@ void Scena::loop(Player& hero)
         }
         sf::Time elapsed = clock.restart();
         sf::sleep(sf::milliseconds(1));        
-        this->draw(elapsed,hero,laser);
+        this->draw(elapsed,hero,laser,wid);
     }
 }
 
