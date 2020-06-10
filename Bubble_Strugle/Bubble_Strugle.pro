@@ -13,6 +13,7 @@ CONFIG(debug, debug|release){
 SOURCES += \
         enemy.cpp \
         main.cpp \
+        menu.cpp \
         player.cpp \
         scena.cpp \
         weapon.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 HEADERS += \
     defs.h \
     enemy.h \
+    menu.h \
     player.h \
     scena.h \
     weapon.h \
