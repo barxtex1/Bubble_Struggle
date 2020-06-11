@@ -29,7 +29,7 @@ Widgets::Widgets(const float& W, const float& H, const int& n_of_life)
     }
 
     // add licznik ECTS
-    font_.loadFromFile("arial.ttf");
+    font_.loadFromFile("BAUHS93.ttf");
     text_ects = sf::Text("Liczba zdobytych ECTS: ",font_);
     text_ects.setCharacterSize(50);
     text_ects.setStyle(sf::Text::Bold);

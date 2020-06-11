@@ -1,8 +1,8 @@
 #include "scena.h"
 
-Scena::Scena(const int& W,const int& H) : window_(sf::VideoMode(W, H), "Bubble Strugle"),Width(W),Height(H)
+Scena::Scena(const int& W,const int& H) : Width(W),Height(H)
 {
-    font.loadFromFile("arial.ttf");
+    font.loadFromFile("BAUHS93.ttf");
     text = sf::Text("CONGRATULATIONS! +1 ECTS",font);
     text_lose = sf::Text("TRY AGAIN!",font);
     text.setCharacterSize(50);
@@ -172,7 +172,7 @@ void Scena::rozbicie(Enemy* b)
 
 
 
-void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid)
+void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid,sf::RenderWindow& window_)
 {
     window_.clear(sf::Color::Black);
 
@@ -297,7 +297,7 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid)
     window_.display();
 }
 
-void Scena::loop(Player& hero)
+void Scena::loop(Player& hero,sf::RenderWindow& window_)
 {
     sf::Clock clock;
     Widgets wid(getWidth(),getHeight(),numb_of_life);
@@ -322,7 +322,6 @@ void Scena::loop(Player& hero)
     wygrana = false;
     przegrana = false;
     sleep = 0;
-
     while (window_.isOpen())
     {
         if(wygrana == true)
@@ -356,7 +355,7 @@ void Scena::loop(Player& hero)
         }
         sf::Time elapsed = clock.restart();
         sf::sleep(sf::milliseconds(1));        
-        this->draw(elapsed,hero,laser,wid);
+        this->draw(elapsed,hero,laser,wid,window_);
     }
 }
 

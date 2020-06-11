@@ -15,7 +15,6 @@ private:
     bool przegrana = false;
     float sleep = 0;
     int numb_of_life = 3;
-    sf::RenderWindow window_;
     sf::Font font;
     sf::Text text;
     sf::Text text_lose;
@@ -31,8 +30,8 @@ public:
     Scena(const int& W,const int& H);
     int getWidth();
     int getHeight();
-    void draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid);
-    void loop(Player& hero);
+    void draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid,sf::RenderWindow& window);
+    void loop(Player& hero,sf::RenderWindow& window);
     void Kolizja_B_H(Player& hero);
     void Kolizja_B_W(Weapon* laser);
     void rozbicie(Enemy* b);
