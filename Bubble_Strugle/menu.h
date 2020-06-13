@@ -7,26 +7,36 @@
 class Menu
 {
 private:
+    struct teksty
+    {
+        sf::Text text;
+        bool slct;
+        int nr;
+        teksty(const sf::Text& t,const bool& s,const int& n): text(t),slct(s),nr(n){}
+    };
+    bool sl = false;
+    bool t1 = false;
+    bool t2 = false;
+    bool t3 = false;
+    bool t4 = false;
     sf::Font font;
-    sf::Text text_rozp;
-    sf::Text text_sterow;
-    sf::Text text_zrodl;
-    sf::Text text_wyjsc;
-    std::vector<sf::Text> texty;
+    sf::Text text;
+    sf::Text Powrot;
+    std::vector<teksty> txt;
+    std::vector<sf::Text> sterow;
+    std::vector<std::unique_ptr<sf::Sprite>> sprite_sterow;
     std::unique_ptr<sf::Sprite> tlo;
     std::unique_ptr<sf::Texture> textura;
     std::unique_ptr<sf::Sprite> robot;
     std::unique_ptr<sf::Texture> textura_robot;
-    bool slct_rozp = false;
-    bool slct_sterow = false;
-    bool slct_zrodl = false;
-    bool slct = false;
-    bool slct_wyjsc = false;
+    std::unique_ptr<sf::Sprite> ster;
+    std::unique_ptr<sf::Texture> textura_sterow;
 public:
     Menu(const int& W,const int& H);
     void draw(sf::RenderWindow& window_);
     void loop(sf::RenderWindow& window_);
     void select(const sf::Event& event,sf::RenderWindow& window_);
+    void CheckSelect();
 };
 
 #endif // MENU_H
