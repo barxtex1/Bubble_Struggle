@@ -110,16 +110,20 @@ void Menu::select(const sf::Event& event,sf::RenderWindow& window_)
         Powrot.setOutlineThickness(0);
     }
 
+
     if (event.type == sf::Event::MouseButtonPressed)
     {
         if(event.mouseButton.button == sf::Mouse::Left)
         {
-            for(auto& el: txt)
+            if(t2!=true)
             {
-                if(el.text.getGlobalBounds().contains(mouse_position))
+                for(auto& el: txt)
                 {
-                    sl = true;
-                    el.slct = true;
+                    if(el.text.getGlobalBounds().contains(mouse_position))
+                    {
+                        sl = true;
+                        el.slct = true;
+                    }
                 }
             }
             if(Powrot.getGlobalBounds().contains(mouse_position))
