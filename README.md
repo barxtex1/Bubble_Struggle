@@ -12,5 +12,5 @@ Popularne Bubble Struggle to w moim przypadku gra jednoosobowa, której celem je
 
 <br/>Moja wersja: <br/>
 <br/>
-![Gif of my Bubble Struggle](https://j.gifs.com/nxAKDY.gif)
+![Gif of my Bubble Struggle](https://github.com/barxtex1/Bubble_Struggle/blob/master/images/gif.gif)
 <br/><br/>
