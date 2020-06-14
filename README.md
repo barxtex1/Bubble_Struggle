@@ -10,4 +10,7 @@ Popularne Bubble Struggle to w moim przypadku gra jednoosobowa, której celem je
 * :arrow_right: poruszanie się w prawo
 * <kbd>Space</kbd> strzał laserem
 
-
+<br/>Moja wersja: <br/>
+<br/>
+![Gif of my Bubble Struggle](https://j.gifs.com/nxAKDY.gif)
+<br/><br/>
