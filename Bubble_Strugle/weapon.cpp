@@ -11,10 +11,6 @@ Weapon::Weapon(const float& x, const float& y)
     laser_->setPosition(x,y);
 }
 
-Weapon::~Weapon()
-{
-    std::cerr<<"Jestem w destruktorze laser"<<std::endl;
-}
 
 void Weapon::Animate()
 {

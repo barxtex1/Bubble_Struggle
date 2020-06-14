@@ -3,8 +3,11 @@
 Scena::Scena(const int& W,const int& H) : Width(W),Height(H)
 {
     font.loadFromFile("BAUHS93.ttf");
-    text = sf::Text("CONGRATULATIONS! +1 ECTS",font);
-    text_lose = sf::Text("TRY AGAIN!",font);
+    text = sf::Text("BRAWO! +1 ECTS",font);
+    text_lose = sf::Text("SPROBUJ JESZCZE RAZ!",font);
+    text_over = sf::Text("KONIEC GRY!",font);
+    text_win = sf::Text("ZALICZYLES! GRATULACJE :)",font);
+    text_start = sf::Text("PRZYGOTUJ SIE!",font);
     text.setCharacterSize(50);
     text.setStyle(sf::Text::Bold);
     text.setFillColor(sf::Color::Red);
@@ -13,7 +16,18 @@ Scena::Scena(const int& W,const int& H) : Width(W),Height(H)
     text_lose.setStyle(sf::Text::Bold);
     text_lose.setFillColor(sf::Color::Red);
     text_lose.setPosition(W/2-(text_lose.getGlobalBounds().width/2),H/2);
-
+    text_over.setCharacterSize(50);
+    text_over.setStyle(sf::Text::Bold);
+    text_over.setFillColor(sf::Color::Red);
+    text_over.setPosition(W/2-(text_over.getGlobalBounds().width/2),H/2);
+    text_win.setCharacterSize(50);
+    text_win.setStyle(sf::Text::Bold);
+    text_win.setFillColor(sf::Color::Red);
+    text_win.setPosition(W/2-(text_win.getGlobalBounds().width/2),H/2);
+    text_start.setCharacterSize(50);
+    text_start.setStyle(sf::Text::Bold);
+    text_start.setFillColor(sf::Color::Red);
+    text_start.setPosition(W/2-(text_start.getGlobalBounds().width/2),H/2);
 
     std::unique_ptr<sf::Texture> bg01 = std::make_unique<sf::Texture>();
     if(!bg01->loadFromFile("Source/Universe/bkgd_0.png")){
@@ -111,6 +125,13 @@ int Scena::getNofLife()
     return numb_of_life;
 }
 
+void Scena::resetLife_Ects()
+{
+    numb_of_life = 3;
+    ECTS = 0;
+}
+
+
 
 void Scena::Kolizja_B_H(Player& hero)
 {
@@ -164,7 +185,7 @@ void Scena::rozbicie(Enemy* b)
     lim = b->getLimit()-50;
     auto it = std::find(Balls.begin(),Balls.end(),b);
     Balls.erase(it);
-    if(lim>=250)
+    if(lim>=lim_rozb)
     {
         dodano = true;
     }
@@ -188,10 +209,14 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid,sf:
     // Widgets
 
     window_.draw(*wid.czas);
-    if(hero.kolizja_ball!=true && Balls.empty()!=true)
+    if(start_sleep>2)
     {
-        wid.Animate_time();
+        if(hero.kolizja_ball!=true && Balls.empty()!=true)
+        {
+            wid.Animate_time();
+        }
     }
+
     for(auto& l : wid.life_)
     {
         window_.draw(*l);
@@ -217,9 +242,12 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid,sf:
         {
             rozbicie(b);
         }
-        if(b->kolizja_hero!=true && wid.end_time!=true)
+        if(start_sleep>2)
         {
-            b->step(elp,getWidth(),getHeight());
+            if(b->kolizja_hero!=true && wid.end_time!=true)
+            {
+                b->step(elp,getWidth(),getHeight());
+            }
         }
     }
     if(dodano==true)
@@ -231,17 +259,29 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid,sf:
 
     // animacja hero i wybuch przy kolizji z pilka
     window_.draw(*hero.robot);
-    if(hero.kolizja_ball!=true)
+    if(start_sleep>2)
     {
-        hero.animated(elp,sciany);
-    }
-    else
-    {
-        hero.explosion->setPosition(hero.robot->getGlobalBounds().left-40,hero.robot->getGlobalBounds().top);
-        window_.draw(*hero.explosion);
-        hero.kolizja(elp);
-        window_.draw(text_lose);
-        sleep += elp.asSeconds();
+        if(hero.kolizja_ball!=true && wid.end_time!=true)
+        {
+            hero.animated(elp,sciany);
+        }
+        else
+        {
+            hero.explosion->setPosition(hero.robot->getGlobalBounds().left-40,hero.robot->getGlobalBounds().top);
+            window_.draw(*hero.explosion);
+            hero.kolizja(elp);
+            if(numb_of_life!=0)
+            {
+                window_.draw(text_lose);
+                sleep += elp.asSeconds();
+            }
+            else
+            {
+                window_.draw(text_over);
+                sleep += elp.asSeconds();
+            }
+
+        }
     }
 
     // animacja lasera oraz kolizja ze sciana i pilka
@@ -271,13 +311,29 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid,sf:
     // Sprawdzanie czy gracz wygral czy przegral
     if(Balls.empty())
     {
-        window_.draw(text);
-        sleep += elp.asSeconds();
+        if(ECTS!=5)
+        {
+            window_.draw(text);
+            sleep += elp.asSeconds();
+        }
+        else
+        {
+            window_.draw(text_win);
+            sleep += elp.asSeconds();
+        }
     }
     if(wid.end_time)
     {
-        window_.draw(text_lose);
-        sleep += elp.asSeconds();
+        if(numb_of_life!=0)
+        {
+            window_.draw(text_lose);
+            sleep += elp.asSeconds();
+        }
+        else
+        {
+            window_.draw(text_over);
+            sleep += elp.asSeconds();
+        }
     }
     if(sleep>2)
     {
@@ -294,6 +350,12 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid,sf:
             Balls.clear();
         }
     }
+
+    if(start_sleep<2)
+    {
+        window_.draw(text_start);
+        start_sleep +=elp.asSeconds();
+    }
     window_.display();
 }
 
@@ -305,11 +367,13 @@ void Scena::loop(Player& hero,sf::RenderWindow& window_)
     if(ECTS == 0)
     {
         Balls.emplace_back() = new Enemy(100,100,100,350,100);
+        lim_rozb = 250;
     }
     if(ECTS == 1)
     {
         Balls.emplace_back() = new Enemy(100,100,100,350,100);
         Balls.emplace_back() = new Enemy(100,window_.getSize().x-300,100,350,-100);
+        lim_rozb = 250;
     }
     if(ECTS == 2)
     {
@@ -317,11 +381,45 @@ void Scena::loop(Player& hero,sf::RenderWindow& window_)
         {
             Balls.emplace_back() = new Enemy(20,50+i*40,50+i*40,250,100);
         }
+        lim_rozb = 250;
+    }
+    if(ECTS == 3)
+    {
+        for(int i=0;i<2;i++)
+        {
+            Balls.emplace_back() = new Enemy(80,100+i*200,100+i*50,350,150);
+        }
+        lim_rozb = 250;
+    }
+    if(ECTS == 4)
+    {
+        for(int i=0;i<6;i++)
+        {
+            Balls.emplace_back() = new Enemy(20,50+i*40,50+i*40,250,100);
+        }
+        for(int i=0;i<6;i++)
+        {
+            Balls.emplace_back() = new Enemy(20,window_.getSize().x-(150+i*40),75+i*40,250,-100);
+        }
+        lim_rozb = 250;
+    }
+    if(ECTS == 5)
+    {
+        for(int i=0;i<2;i++)
+        {
+            Balls.emplace_back() = new Enemy(30,50+i*50,50+i*50,600,100);
+        }
+        for(int i=0;i<2;i++)
+        {
+            Balls.emplace_back() = new Enemy(30,window_.getSize().x-(100+i*50),50+i*50,600,-100);
+        }
+        lim_rozb = 550;
     }
     Weapon* laser;
     wygrana = false;
     przegrana = false;
     sleep = 0;
+    start_sleep = 0;
     while (window_.isOpen())
     {
         if(wygrana == true)
@@ -342,7 +440,7 @@ void Scena::loop(Player& hero,sf::RenderWindow& window_)
             }
             if (event.type == sf::Event::KeyReleased)
             {
-                if(fire!=true)
+                if(fire!=true && wid.end_time!=true && start_sleep>2)
                 {
                     if (event.key.code == sf::Keyboard::Space)
                     {

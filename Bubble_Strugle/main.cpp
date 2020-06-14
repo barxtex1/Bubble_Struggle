@@ -7,10 +7,14 @@ int main()
     Scena s(window.getSize().x,window.getSize().y);
     Player hero;
     Menu m(window.getSize().x,window.getSize().y);
-    m.loop(window);
-    while(s.getECTS()!=3 && s.getNofLife() >= 0)
+    while(window.isOpen())
     {
-        s.loop(hero,window);
+        m.loop(window);
+        while(s.getECTS()!=6 && s.getNofLife() >= 0)
+        {
+            s.loop(hero,window);
+        }
+        s.resetLife_Ects();
     }
     return 0;
 }

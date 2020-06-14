@@ -13,7 +13,6 @@ private:
     std::unique_ptr<sf::Sprite> laser_;
 public:
     Weapon(const float& x, const float& y);
-    ~Weapon();
     friend class Scena;
     void Animate();
 };

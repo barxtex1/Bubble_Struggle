@@ -14,14 +14,18 @@ private:
     bool wygrana = false;
     bool przegrana = false;
     float sleep = 0;
+    float start_sleep = 0;
     int numb_of_life = 3;
     sf::Font font;
     sf::Text text;
     sf::Text text_lose;
+    sf::Text text_over;
+    sf::Text text_win;
+    sf::Text text_start;
     int Width,Height;
     bool fire = false;
     float radius = 100;
-    float x,y,V_x,lim;
+    float x,y,V_x,lim,lim_rozb;
     std::vector<std::unique_ptr<sf::Sprite>> tlo;
     std::vector<std::unique_ptr<sf::Sprite>> sciany;
     std::vector<std::unique_ptr<sf::Texture>> textury;
@@ -37,6 +41,7 @@ public:
     void rozbicie(Enemy* b);
     int getECTS();
     int getNofLife();
+    void resetLife_Ects();
 };
 
 #endif // SCENA_H

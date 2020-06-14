@@ -3,6 +3,8 @@
 Menu::Menu(const int& W,const int& H)
 {
     font.loadFromFile("BAUHS93.ttf");
+
+    // menu glowne
     text = sf::Text("Rozpocznij gre",font);
     txt.emplace_back(text,false,1);
     text = sf::Text("Sterowanie",font);
@@ -11,18 +13,6 @@ Menu::Menu(const int& W,const int& H)
     txt.emplace_back(text,false,3);
     text = sf::Text("Wyjscie",font);
     txt.emplace_back(text,false,4);
-    text = sf::Text("Poruszanie sie w lewo",font);
-    sterow.emplace_back(text);
-    text = sf::Text("Poruszanie sie w prawo",font);
-    sterow.emplace_back(text);
-    text = sf::Text("Strzal laserem",font);
-    sterow.emplace_back(text);
-    Powrot = sf::Text("Powrot",font);
-    Powrot.setCharacterSize(100);
-    Powrot.setStyle(sf::Text::Bold);
-    Powrot.setFillColor(sf::Color::Black);
-    Powrot.setPosition(100,H-Powrot.getGlobalBounds().height-150);
-
     for(size_t i=0;i<txt.size();i++)
     {
         txt[i].text.setCharacterSize(100);
@@ -31,17 +21,57 @@ Menu::Menu(const int& W,const int& H)
         txt[i].text.setPosition(W/2-(txt[i].text.getGlobalBounds().width/2),125+i*125);
     }
 
+    // zrodla
+    text = sf::Text("Textury:",font);
+    zrodl.emplace_back(text);
+    text = sf::Text("- https://opengameart.org",font);
+    zrodl.emplace_back(text);
+    text = sf::Text("- https://kenney.nl/assets/page:2",font);
+    zrodl.emplace_back(text);
+    text = sf::Text("Gra oparta na podstawie:",font);
+    zrodl.emplace_back(text);
+    text = sf::Text("https://www.wyspagier.pl/bubble-struggle.htm",font);
+    zrodl.emplace_back(text);
+    for(size_t i=0;i<zrodl.size();i++)
+    {
+        zrodl[i].setCharacterSize(40);
+        zrodl[i].setFillColor(sf::Color::Black);
+        zrodl[i].setOutlineThickness(1);
+        zrodl[i].setOutlineColor(sf::Color::White);
+        zrodl[i].setPosition(100,125+i*70);
+    }
+
+    // sterowanie
+    text = sf::Text("Poruszanie sie w lewo",font);
+    sterow.emplace_back(text);
+    text = sf::Text("Poruszanie sie w prawo",font);
+    sterow.emplace_back(text);
+    text = sf::Text("Strzal laserem",font);
+    sterow.emplace_back(text);
     for(size_t i=0;i<sterow.size()-1;i++)
     {
         sterow[i].setCharacterSize(70);
         sterow[i].setStyle(sf::Text::Bold);
+        sterow[i].setOutlineThickness(1);
+        sterow[i].setOutlineColor(sf::Color::White);
         sterow[i].setFillColor(sf::Color::Black);
         sterow[i].setPosition(W/2-(sterow[i].getGlobalBounds().width/2)+100,125+i*150);
     }
     sterow[2].setCharacterSize(70);
     sterow[2].setStyle(sf::Text::Bold);
+    sterow[2].setOutlineThickness(1);
+    sterow[2].setOutlineColor(sf::Color::White);
     sterow[2].setFillColor(sf::Color::Black);
     sterow[2].setPosition(W/2-(sterow[2].getGlobalBounds().width/2)+170,410);
+
+
+    Powrot = sf::Text("Powrot",font);
+    Powrot.setCharacterSize(100);
+    Powrot.setStyle(sf::Text::Bold);
+    Powrot.setFillColor(sf::Color::Black);
+    Powrot.setPosition(100,H-Powrot.getGlobalBounds().height-150);
+
+
 
     textura = std::make_unique<sf::Texture>();
     if(!textura->loadFromFile("Source/Rocks/DIRT.png")){
@@ -115,7 +145,7 @@ void Menu::select(const sf::Event& event,sf::RenderWindow& window_)
     {
         if(event.mouseButton.button == sf::Mouse::Left)
         {
-            if(t2!=true)
+            if(t2!=true && t3!=true)
             {
                 for(auto& el: txt)
                 {
@@ -129,6 +159,7 @@ void Menu::select(const sf::Event& event,sf::RenderWindow& window_)
             if(Powrot.getGlobalBounds().contains(mouse_position))
             {
                 t2 = false;
+                t3 = false;
             }
         }
     }
@@ -174,14 +205,14 @@ void Menu::draw(sf::RenderWindow& window_)
     window_.clear(sf::Color::Black);
     window_.draw(*tlo);
     window_.draw(*robot);
-    if(t2!=true)
+    if(t2!=true && t3!=true)
     {
         for(auto& el: txt)
         {
             window_.draw(el.text);
         }
     }
-    else
+    else if(t2)
     {
         for(auto& s: sprite_sterow)
         {
@@ -193,7 +224,14 @@ void Menu::draw(sf::RenderWindow& window_)
         }
         window_.draw(Powrot);
     }
-
+    else if(t3)
+    {
+        for(auto& el: zrodl)
+        {
+            window_.draw(el);
+        }
+        window_.draw(Powrot);
+    }
     window_.display();
 }
 
@@ -210,6 +248,11 @@ void Menu::loop(sf::RenderWindow& window_)
         {
             t1 = false;
             break;
+        }
+        if(t4)
+        {
+            t4 = false;
+            window_.close();
         }
         sf::Event event;
         while (window_.pollEvent(event))

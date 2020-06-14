@@ -24,6 +24,7 @@ private:
     sf::Text Powrot;
     std::vector<teksty> txt;
     std::vector<sf::Text> sterow;
+    std::vector<sf::Text> zrodl;
     std::vector<std::unique_ptr<sf::Sprite>> sprite_sterow;
     std::unique_ptr<sf::Sprite> tlo;
     std::unique_ptr<sf::Texture> textura;

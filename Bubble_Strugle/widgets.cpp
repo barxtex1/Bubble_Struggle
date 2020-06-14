@@ -64,6 +64,6 @@ void Widgets::Animate_time()
     {
         end_time = true;
     }
-    b -= 0.004;
+    b -= 0.002;
 }
 
