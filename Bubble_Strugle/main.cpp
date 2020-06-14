@@ -3,7 +3,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1000, 800), "Bubble Strugle");
+    sf::RenderWindow window(sf::VideoMode(1000, 800), "Bubble Struggle");
     Scena s(window.getSize().x,window.getSize().y);
     Player hero;
     Menu m(window.getSize().x,window.getSize().y);
