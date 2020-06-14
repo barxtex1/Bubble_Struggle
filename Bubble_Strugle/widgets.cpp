@@ -4,7 +4,7 @@ Widgets::Widgets(const float& W, const float& H, const int& n_of_life)
 {
     // add time
     textura_time = std::make_unique<sf::Texture>();
-    if(!textura_time->loadFromFile("Source/Laser/Lasers/laserBlue02.png")){
+    if(!textura_time->loadFromFile("Resources/Laser/Lasers/laserBlue02.png")){
         throw("Could not load texture");
     }
     czas = std::make_unique<sf::Sprite>();
@@ -16,7 +16,7 @@ Widgets::Widgets(const float& W, const float& H, const int& n_of_life)
     // add life
 
     textura_life = std::make_unique<sf::Texture>();
-    if(!textura_life->loadFromFile("Source/Robot/PNG/Parts HD/headShock.png")){
+    if(!textura_life->loadFromFile("Resources/Robot/PNG/Parts HD/headShock.png")){
         throw("Could not load texture");
     }
     for(int i=0;i<n_of_life;i++)
@@ -38,7 +38,7 @@ Widgets::Widgets(const float& W, const float& H, const int& n_of_life)
 
     //add numbers
     textura_numb = std::make_unique<sf::Texture>();
-    if(!textura_numb->loadFromFile("Source/Numbers/sheet.png")){
+    if(!textura_numb->loadFromFile("Resources/Numbers/sheet.png")){
         throw("Could not load texture");
     }
     numbers = std::make_unique<sf::Sprite>();

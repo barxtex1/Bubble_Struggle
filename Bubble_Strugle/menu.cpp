@@ -74,7 +74,7 @@ Menu::Menu(const int& W,const int& H)
 
 
     textura = std::make_unique<sf::Texture>();
-    if(!textura->loadFromFile("Source/Rocks/DIRT.png")){
+    if(!textura->loadFromFile("Resources/Rocks/DIRT.png")){
         throw("Could not load texture");
     }
     textura->setRepeated(true);
@@ -84,7 +84,7 @@ Menu::Menu(const int& W,const int& H)
 
     // add robot
     textura_robot = std::make_unique<sf::Texture>();
-    if(!textura_robot->loadFromFile("Source/Robot/PNG/Poses HD/character_robot_wide.png")){
+    if(!textura_robot->loadFromFile("Resources/Robot/PNG/Poses HD/character_robot_wide.png")){
         throw("Could not load texture");
     }
     robot = std::make_unique<sf::Sprite>();
@@ -94,7 +94,7 @@ Menu::Menu(const int& W,const int& H)
 
     // sterowanie
     textura_sterow = std::make_unique<sf::Texture>();
-    if(!textura_sterow->loadFromFile("Source/Numbers/Keyboard.png")){
+    if(!textura_sterow->loadFromFile("Resources/Numbers/Keyboard.png")){
         throw("Could not load texture");
     }
     ster = std::make_unique<sf::Sprite>(*textura_sterow);

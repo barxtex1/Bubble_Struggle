@@ -30,7 +30,7 @@ Scena::Scena(const int& W,const int& H) : Width(W),Height(H)
     text_start.setPosition(W/2-(text_start.getGlobalBounds().width/2),H/2);
 
     std::unique_ptr<sf::Texture> bg01 = std::make_unique<sf::Texture>();
-    if(!bg01->loadFromFile("Source/Universe/bkgd_0.png")){
+    if(!bg01->loadFromFile("Resources/Universe/bkgd_0.png")){
         throw("Could not load texture");
     }
     bg01->setRepeated(true);
@@ -42,7 +42,7 @@ Scena::Scena(const int& W,const int& H) : Width(W),Height(H)
     tlo.emplace_back(std::move(bkgd01));
 
     std::unique_ptr<sf::Texture> bg02 = std::make_unique<sf::Texture>();
-    if(!bg02->loadFromFile("Source/Universe/bkgd_1.png")){
+    if(!bg02->loadFromFile("Resources/Universe/bkgd_1.png")){
         throw("Could not load texture");
     }
     bg02->setRepeated(true);
@@ -54,7 +54,7 @@ Scena::Scena(const int& W,const int& H) : Width(W),Height(H)
     tlo.emplace_back(std::move(bkgd02));
 
     std::unique_ptr<sf::Texture> bg03 = std::make_unique<sf::Texture>();
-    if(!bg03->loadFromFile("Source/Universe/bkgd_5.png")){
+    if(!bg03->loadFromFile("Resources/Universe/bkgd_5.png")){
         throw("Could not load texture");
     }
     bg03->setRepeated(true);
@@ -66,7 +66,7 @@ Scena::Scena(const int& W,const int& H) : Width(W),Height(H)
     tlo.emplace_back(std::move(bkgd03));
 
     std::unique_ptr<sf::Texture> bg04 = std::make_unique<sf::Texture>();
-    if(!bg04->loadFromFile("Source/Universe/bkgd_7.png")){
+    if(!bg04->loadFromFile("Resources/Universe/bkgd_7.png")){
         throw("Could not load texture");
     }
     bg04->setRepeated(true);
@@ -78,7 +78,7 @@ Scena::Scena(const int& W,const int& H) : Width(W),Height(H)
     tlo.emplace_back(std::move(bkgd04));
 
     std::unique_ptr<sf::Texture> text_dirt = std::make_unique<sf::Texture>();
-    if(!text_dirt->loadFromFile("Source/Rocks/DIRT.png")){
+    if(!text_dirt->loadFromFile("Resources/Rocks/DIRT.png")){
         throw("Could not load texture");
     }
     text_dirt->setRepeated(true);

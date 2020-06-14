@@ -4,7 +4,7 @@ Player::Player()
 {
     //add robot
     textura = std::make_unique<sf::Texture>();
-    if(!textura->loadFromFile("Source/Robot/Tilesheet/character_robot_sheetHD.png")){
+    if(!textura->loadFromFile("Resources/Robot/Tilesheet/character_robot_sheetHD.png")){
         throw("Could not load texture");
     }
     robot = std::make_unique<sf::Sprite>();
@@ -18,7 +18,7 @@ Player::Player()
     }
     //add explosion
     textura_exp = std::make_unique<sf::Texture>();
-    if(!textura_exp->loadFromFile("Source/Robot/Explosion/Explosion.png")){
+    if(!textura_exp->loadFromFile("Resources/Robot/Explosion/Explosion.png")){
         throw("Could not load texture");
     }
     explosion = std::make_unique<sf::Sprite>();

@@ -3,7 +3,7 @@
 Weapon::Weapon(const float& x, const float& y)
 {
     textura_wep = std::make_unique<sf::Texture>();
-    if(!textura_wep->loadFromFile("Source/Laser/Lasers/laserBlue06.png")){
+    if(!textura_wep->loadFromFile("Resources/Laser/Lasers/laserBlue06.png")){
         throw("Could not load texture");
     }
     laser_ = std::make_unique<sf::Sprite>();
