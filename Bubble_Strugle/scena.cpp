@@ -78,7 +78,7 @@ Scena::Scena(const int& W,const int& H) : Width(W),Height(H)
     tlo.emplace_back(std::move(bkgd04));
 
     std::unique_ptr<sf::Texture> text_dirt = std::make_unique<sf::Texture>();
-    if(!text_dirt->loadFromFile("Resources/Rocks/DIRT.png")){
+    if(!text_dirt->loadFromFile("Resources/bcg2/bcg2.png")){
         throw("Could not load texture");
     }
     text_dirt->setRepeated(true);

@@ -34,6 +34,8 @@ Widgets::Widgets(const float& W, const float& H, const int& n_of_life)
     text_ects.setCharacterSize(50);
     text_ects.setStyle(sf::Text::Bold);
     text_ects.setFillColor(sf::Color::Black);
+    text_ects.setOutlineThickness(1);
+    text_ects.setOutlineColor(sf::Color::White);
     text_ects.setPosition(W-text_ects.getGlobalBounds().width-100,H-text_ects.getGlobalBounds().height-50);
 
     //add numbers
