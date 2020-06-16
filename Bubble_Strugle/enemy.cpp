@@ -2,10 +2,44 @@
 
 Enemy::Enemy(const float& r,const float& x,const float& y,const float& l,const float& V_x_) : sf::CircleShape(r), radius(r),limit(l),Velocity_x(V_x_)
 {
+    sf::Texture textura;
+    if (!textura.loadFromFile("Resources/Planets/Desert.png"))
+    {
+        throw("Could not load texture");
+    }
+    textury.emplace_back(textura);
+    if (!textura.loadFromFile("Resources/Planets/Baren.png"))
+    {
+        throw("Could not load texture");
+    }
+    textury.emplace_back(textura);
+    if (!textura.loadFromFile("Resources/Planets/Forest.png"))
+    {
+        throw("Could not load texture");
+    }
+    textury.emplace_back(textura);
+    if (!textura.loadFromFile("Resources/Planets/Ice.png"))
+    {
+        throw("Could not load texture");
+    }
+    textury.emplace_back(textura);
+    if (!textura.loadFromFile("Resources/Planets/Lava.png"))
+    {
+        throw("Could not load texture");
+    }
+    textury.emplace_back(textura);
+    if (!textura.loadFromFile("Resources/Planets/Ocean.png"))
+    {
+        throw("Could not load texture");
+    }
+    textury.emplace_back(textura);
+    if (!textura.loadFromFile("Resources/Planets/Terran.png"))
+    {
+        throw("Could not load texture");
+    }
+    textury.emplace_back(textura);
+    setTexture(&textury[rand()%7]);
     setPosition(x, y);
-    setFillColor(sf::Color(150, 50, 200));
-    setOutlineThickness(2);
-    setOutlineColor(sf::Color::Black);
 }
 
 void Enemy::bounce(const int& W, const int& H)
@@ -66,7 +100,6 @@ void Enemy::setLimit(const float& l)
 {
     limit = l;
 }
-
 
 Enemy::~Enemy()
 {

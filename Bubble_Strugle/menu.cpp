@@ -17,7 +17,7 @@ Menu::Menu(const int& W,const int& H)
     {
         txt[i].text.setCharacterSize(100);
         txt[i].text.setStyle(sf::Text::Bold);
-        txt[i].text.setFillColor(sf::Color::Black);
+        txt[i].text.setFillColor(sf::Color::White);
         txt[i].text.setPosition(W/2-(txt[i].text.getGlobalBounds().width/2),125+i*125);
     }
 
@@ -68,13 +68,13 @@ Menu::Menu(const int& W,const int& H)
     Powrot = sf::Text("Powrot",font);
     Powrot.setCharacterSize(100);
     Powrot.setStyle(sf::Text::Bold);
-    Powrot.setFillColor(sf::Color::Black);
+    Powrot.setFillColor(sf::Color::White);
     Powrot.setPosition(100,H-Powrot.getGlobalBounds().height-150);
 
 
 
     textura = std::make_unique<sf::Texture>();
-    if(!textura->loadFromFile("Resources/Rocks/DIRT.png")){
+    if(!textura->loadFromFile("Resources/bcg2/bcg2.png")){
         throw("Could not load texture");
     }
     textura->setRepeated(true);
@@ -123,7 +123,7 @@ void Menu::select(const sf::Event& event,sf::RenderWindow& window_)
         if(el.text.getGlobalBounds().contains(mouse_position))
         {
             el.text.setOutlineThickness(5);
-            el.text.setOutlineColor(sf::Color::White);
+            el.text.setOutlineColor(sf::Color::Blue);
         }
         else
         {
@@ -133,7 +133,7 @@ void Menu::select(const sf::Event& event,sf::RenderWindow& window_)
     if(Powrot.getGlobalBounds().contains(mouse_position))
     {
         Powrot.setOutlineThickness(5);
-        Powrot.setOutlineColor(sf::Color::White);
+        Powrot.setOutlineColor(sf::Color::Blue);
     }
     else
     {

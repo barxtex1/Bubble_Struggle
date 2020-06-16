@@ -11,6 +11,7 @@ private:
     float Velocity_x;
     float Velocity_y=0;
     float acceleration_y= 200;
+    std::vector<sf::Texture> textury;
 public:
     bool kolizja_hero = false;
     bool kolizja_laser = false;
