@@ -1,44 +1,8 @@
 #include "enemy.h"
 
-Enemy::Enemy(const float& r,const float& x,const float& y,const float& l,const float& V_x_) : sf::CircleShape(r), radius(r),limit(l),Velocity_x(V_x_)
+Enemy::Enemy(const float& r,const float& x,const float& y,const float& l,const float& V_x_, const std::vector<sf::Texture>& tex) : sf::CircleShape(r), radius(r),limit(l),Velocity_x(V_x_),textury_planet_(tex)
 {
-    sf::Texture textura;
-    if (!textura.loadFromFile("Resources/Planets/Desert.png"))
-    {
-        throw("Could not load texture");
-    }
-    textury.emplace_back(textura);
-    if (!textura.loadFromFile("Resources/Planets/Baren.png"))
-    {
-        throw("Could not load texture");
-    }
-    textury.emplace_back(textura);
-    if (!textura.loadFromFile("Resources/Planets/Forest.png"))
-    {
-        throw("Could not load texture");
-    }
-    textury.emplace_back(textura);
-    if (!textura.loadFromFile("Resources/Planets/Ice.png"))
-    {
-        throw("Could not load texture");
-    }
-    textury.emplace_back(textura);
-    if (!textura.loadFromFile("Resources/Planets/Lava.png"))
-    {
-        throw("Could not load texture");
-    }
-    textury.emplace_back(textura);
-    if (!textura.loadFromFile("Resources/Planets/Ocean.png"))
-    {
-        throw("Could not load texture");
-    }
-    textury.emplace_back(textura);
-    if (!textura.loadFromFile("Resources/Planets/Terran.png"))
-    {
-        throw("Could not load texture");
-    }
-    textury.emplace_back(textura);
-    setTexture(&textury[rand()%7]);
+    setTexture(&textury_planet_[rand()%textury_planet_.size()]);
     setPosition(x, y);
 }
 
@@ -101,9 +65,6 @@ void Enemy::setLimit(const float& l)
     limit = l;
 }
 
-Enemy::~Enemy()
-{
-    std::cerr<<"Jestem w destruktorze ball"<<std::endl;
-}
+
 
 

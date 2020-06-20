@@ -104,6 +104,48 @@ Scena::Scena(const int& W,const int& H) : Width(W),Height(H)
     dirt04->setTextureRect(sf::IntRect(0, 0, Width, 25));
     dirt04->setPosition(0,0);
     sciany.emplace_back(std::move(dirt04));
+
+    sf::Texture textura;
+    if (!textura.loadFromFile("Resources/Planets/Desert.png"))
+    {
+        throw("Could not load texture");
+    }
+    textury_planet.emplace_back(textura);
+    if (!textura.loadFromFile("Resources/Planets/Baren.png"))
+    {
+        throw("Could not load texture");
+    }
+    textury_planet.emplace_back(textura);
+    if (!textura.loadFromFile("Resources/Planets/Forest.png"))
+    {
+        throw("Could not load texture");
+    }
+    textury_planet.emplace_back(textura);
+    if (!textura.loadFromFile("Resources/Planets/Ice.png"))
+    {
+        throw("Could not load texture");
+    }
+    textury_planet.emplace_back(textura);
+    if (!textura.loadFromFile("Resources/Planets/Lava.png"))
+    {
+        throw("Could not load texture");
+    }
+    textury_planet.emplace_back(textura);
+    if (!textura.loadFromFile("Resources/Planets/Ocean.png"))
+    {
+        throw("Could not load texture");
+    }
+    textury_planet.emplace_back(textura);
+    if (!textura.loadFromFile("Resources/Planets/Terran.png"))
+    {
+        throw("Could not load texture");
+    }
+    textury_planet.emplace_back(textura);
+}
+
+std::vector<sf::Texture> Scena::getPlanet()
+{
+    return textury_planet;
 }
 
 int Scena::getWidth()
@@ -252,8 +294,8 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid,sf:
     }
     if(dodano==true)
     {
-        Balls.emplace_back() = new Enemy(radius,x-2*radius,y,lim,-std::abs(V_x));
-        Balls.emplace_back() = new Enemy(radius,x,y,lim,V_x);
+        Balls.emplace_back() = new Enemy(radius,x-2*radius,y,lim,-std::abs(V_x),getPlanet());
+        Balls.emplace_back() = new Enemy(radius,x,y,lim,V_x,getPlanet());
         dodano = false;
     }
 
@@ -366,20 +408,20 @@ void Scena::loop(Player& hero,sf::RenderWindow& window_)
     hero.robot->setPosition(getWidth()/2-25,getHeight()-329);
     if(ECTS == 0)
     {
-        Balls.emplace_back() = new Enemy(100,100,100,350,100);
+        Balls.emplace_back() = new Enemy(100,100,100,350,100,getPlanet());
         lim_rozb = 250;
     }
     if(ECTS == 1)
     {
-        Balls.emplace_back() = new Enemy(100,100,100,350,100);
-        Balls.emplace_back() = new Enemy(100,window_.getSize().x-300,100,350,-100);
+        Balls.emplace_back() = new Enemy(100,100,100,350,100,getPlanet());
+        Balls.emplace_back() = new Enemy(100,window_.getSize().x-300,100,350,-100,getPlanet());
         lim_rozb = 250;
     }
     if(ECTS == 2)
     {
         for(int i=0;i<8;i++)
         {
-            Balls.emplace_back() = new Enemy(20,50+i*40,50+i*40,250,100);
+            Balls.emplace_back() = new Enemy(20,50+i*40,50+i*40,250,100,getPlanet());
         }
         lim_rozb = 250;
     }
@@ -387,7 +429,7 @@ void Scena::loop(Player& hero,sf::RenderWindow& window_)
     {
         for(int i=0;i<2;i++)
         {
-            Balls.emplace_back() = new Enemy(80,100+i*200,100+i*50,350,150);
+            Balls.emplace_back() = new Enemy(80,100+i*200,100+i*50,350,150,getPlanet());
         }
         lim_rozb = 250;
     }
@@ -395,11 +437,11 @@ void Scena::loop(Player& hero,sf::RenderWindow& window_)
     {
         for(int i=0;i<6;i++)
         {
-            Balls.emplace_back() = new Enemy(20,50+i*40,50+i*40,250,100);
+            Balls.emplace_back() = new Enemy(20,50+i*40,50+i*40,250,100,getPlanet());
         }
         for(int i=0;i<6;i++)
         {
-            Balls.emplace_back() = new Enemy(20,window_.getSize().x-(150+i*40),75+i*40,250,-100);
+            Balls.emplace_back() = new Enemy(20,window_.getSize().x-(150+i*40),75+i*40,250,-100,getPlanet());
         }
         lim_rozb = 250;
     }
@@ -407,11 +449,11 @@ void Scena::loop(Player& hero,sf::RenderWindow& window_)
     {
         for(int i=0;i<2;i++)
         {
-            Balls.emplace_back() = new Enemy(30,50+i*50,50+i*50,600,100);
+            Balls.emplace_back() = new Enemy(30,50+i*50,50+i*50,600,100,getPlanet());
         }
         for(int i=0;i<2;i++)
         {
-            Balls.emplace_back() = new Enemy(30,window_.getSize().x-(100+i*50),50+i*50,600,-100);
+            Balls.emplace_back() = new Enemy(30,window_.getSize().x-(100+i*50),50+i*50,600,-100,getPlanet());
         }
         lim_rozb = 550;
     }

@@ -29,6 +29,7 @@ private:
     std::vector<std::unique_ptr<sf::Sprite>> tlo;
     std::vector<std::unique_ptr<sf::Sprite>> sciany;
     std::vector<std::unique_ptr<sf::Texture>> textury;
+    std::vector<sf::Texture> textury_planet;
     std::vector<Enemy*> Balls;
 public:
     Scena(const int& W,const int& H);
@@ -42,6 +43,7 @@ public:
     int getECTS();
     int getNofLife();
     void resetLife_Ects();
+    std::vector<sf::Texture> getPlanet();
 };
 
 #endif // SCENA_H

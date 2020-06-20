@@ -11,12 +11,11 @@ private:
     float Velocity_x;
     float Velocity_y=0;
     float acceleration_y= 200;
-    std::vector<sf::Texture> textury;
+    std::vector<sf::Texture> textury_planet_;
 public:
     bool kolizja_hero = false;
     bool kolizja_laser = false;
-    Enemy(const float& r,const float& x,const float& y,const float& l,const float& V_x_);
-    ~Enemy();
+    Enemy(const float& r,const float& x,const float& y,const float& l,const float& V_x_, const std::vector<sf::Texture>& tex);
     void step(const sf::Time& elapsed, const int& W, const int& H);
     void bounce(const int& W, const int& H);
     float getRadius();
