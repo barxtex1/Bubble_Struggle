@@ -482,7 +482,7 @@ void Scena::loop(Player& hero,sf::RenderWindow& window_)
             }
             if (event.type == sf::Event::KeyReleased)
             {
-                if(fire!=true && wid.end_time!=true && start_sleep>2)
+                if(fire!=true && wid.end_time!=true && start_sleep>2 && hero.kolizja_ball!=true)
                 {
                     if (event.key.code == sf::Keyboard::Space)
                     {
@@ -494,8 +494,7 @@ void Scena::loop(Player& hero,sf::RenderWindow& window_)
             }
         }
         sf::Time elapsed = clock.restart();
-        sf::sleep(sf::milliseconds(1));        
+        sf::sleep(sf::milliseconds(1));
         this->draw(elapsed,hero,laser,wid,window_);
     }
 }
-
