@@ -13,3 +13,11 @@ Popularne Bubble Struggle to w moim przypadku gra jednoosobowa, której celem je
 ## Wykorzystane biblioteki
 * SFML
 * STL
+
+### Źródła
+* https://kenney.nl/assets/page:2
+* https://opengameart.org
+
+#### Gra oparta na podstawie
+* https://www.wyspagier.pl/bubble-struggle.htm
+
