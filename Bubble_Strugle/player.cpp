@@ -2,6 +2,7 @@
 
 Player::Player()
 {
+
     //add robot
     textura = std::make_unique<sf::Texture>();
     if(!textura->loadFromFile("Resources/Robot/Tilesheet/character_robot_sheetHD.png")){

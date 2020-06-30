@@ -30,7 +30,7 @@ private:
     std::vector<std::unique_ptr<sf::Sprite>> sciany;
     std::vector<std::unique_ptr<sf::Texture>> textury;
     std::vector<sf::Texture> textury_planet;
-    std::vector<Enemy*> Balls;
+    std::vector<Enemy> Balls;
 public:
     Scena(const int& W,const int& H);
     int getWidth();
@@ -39,7 +39,6 @@ public:
     void loop(Player& hero,sf::RenderWindow& window);
     void Kolizja_B_H(Player& hero);
     void Kolizja_B_W(Weapon* laser);
-    void rozbicie(Enemy* b);
     int getECTS();
     int getNofLife();
     void resetLife_Ects();

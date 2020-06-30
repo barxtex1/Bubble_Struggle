@@ -179,11 +179,11 @@ void Scena::Kolizja_B_H(Player& hero)
 {
     for(auto& ball : Balls)
     {
-        if(sqrt(pow((hero.robot->getGlobalBounds().left+hero.robot->getGlobalBounds().width/2)-(ball->getGlobalBounds().left+ball->getGlobalBounds().width/2),2)
-                +pow((hero.robot->getGlobalBounds().top+hero.robot->getGlobalBounds().height/2)-(ball->getGlobalBounds().top+ball->getGlobalBounds().height/2),2))
-                <ball->getRadius()+20)
+        if(sqrt(pow((hero.robot->getGlobalBounds().left+hero.robot->getGlobalBounds().width/2)-(ball.getGlobalBounds().left+ball.getGlobalBounds().width/2),2)
+                +pow((hero.robot->getGlobalBounds().top+hero.robot->getGlobalBounds().height/2)-(ball.getGlobalBounds().top+ball.getGlobalBounds().height/2),2))
+                <ball.getRadius()+20)
         {
-            ball->kolizja_hero = true;
+            ball.kolizja_hero = true;
             hero.kolizja_ball = true;
         }
     }
@@ -193,46 +193,29 @@ void Scena::Kolizja_B_W(Weapon* laser)
 {
     for(auto& ball : Balls)
     {
-        if(sqrt(pow((laser->laser_->getGlobalBounds().left+laser->laser_->getGlobalBounds().width/2)-(ball->getGlobalBounds().left+ball->getGlobalBounds().width/2),2)
-                +pow((laser->laser_->getGlobalBounds().top+laser->laser_->getGlobalBounds().height/2)-(ball->getGlobalBounds().top+ball->getGlobalBounds().height/2),2))
-                <ball->getRadius()+25)
+        if(sqrt(pow((laser->laser_->getGlobalBounds().left+laser->laser_->getGlobalBounds().width/2)-(ball.getGlobalBounds().left+ball.getGlobalBounds().width/2),2)
+                +pow((laser->laser_->getGlobalBounds().top+laser->laser_->getGlobalBounds().height/2)-(ball.getGlobalBounds().top+ball.getGlobalBounds().height/2),2))
+                <ball.getRadius()+25)
         {
             laser->kolizja_ball = true;
-            ball->kolizja_laser = true;
+            ball.kolizja_laser = true;
         }
-        if(sqrt(pow((laser->laser_->getGlobalBounds().left+laser->laser_->getGlobalBounds().width/2)-(ball->getGlobalBounds().left+ball->getGlobalBounds().width/2),2)
-                +pow((laser->laser_->getGlobalBounds().top)-(ball->getGlobalBounds().top+ball->getGlobalBounds().height/2),2))
-                <ball->getRadius()-25)
+        if(sqrt(pow((laser->laser_->getGlobalBounds().left+laser->laser_->getGlobalBounds().width/2)-(ball.getGlobalBounds().left+ball.getGlobalBounds().width/2),2)
+                +pow((laser->laser_->getGlobalBounds().top)-(ball.getGlobalBounds().top+ball.getGlobalBounds().height/2),2))
+                <ball.getRadius()-25)
         {
             laser->kolizja_ball = true;
-            ball->kolizja_laser = true;
+            ball.kolizja_laser = true;
         }
-        if(sqrt(pow((laser->laser_->getGlobalBounds().left+laser->laser_->getGlobalBounds().width/2)-(ball->getGlobalBounds().left+ball->getGlobalBounds().width/2),2)
-                +pow((laser->laser_->getGlobalBounds().top+laser->laser_->getGlobalBounds().height)-(ball->getGlobalBounds().top+ball->getGlobalBounds().height/2),2))
-                <ball->getRadius())
+        if(sqrt(pow((laser->laser_->getGlobalBounds().left+laser->laser_->getGlobalBounds().width/2)-(ball.getGlobalBounds().left+ball.getGlobalBounds().width/2),2)
+                +pow((laser->laser_->getGlobalBounds().top+laser->laser_->getGlobalBounds().height)-(ball.getGlobalBounds().top+ball.getGlobalBounds().height/2),2))
+                <ball.getRadius())
         {
             laser->kolizja_ball = true;
-            ball->kolizja_laser = true;
+            ball.kolizja_laser = true;
         }
     }
 }
-
-void Scena::rozbicie(Enemy* b)
-{
-    b->kolizja_laser = false;
-    radius = b->getRadius()/2;
-    x = b->getGlobalBounds().left+b->getGlobalBounds().width/2;
-    y = b->getGlobalBounds().top+b->getGlobalBounds().height/2-radius;
-    V_x = std::abs(b->getVelocity_x());
-    lim = b->getLimit()-50;
-    auto it = std::find(Balls.begin(),Balls.end(),b);
-    Balls.erase(it);
-    if(lim>=lim_rozb)
-    {
-        dodano = true;
-    }
-}
-
 
 
 void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid,sf::RenderWindow& window_)
@@ -277,25 +260,36 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid,sf:
 
     //animacja pilki i rozbicie na dwie mniejsze
 
-    for(auto& b : Balls)
+    for(std::vector<Enemy>::iterator it=Balls.begin();it!=Balls.end();it++)
     {
-        window_.draw(*b);
-        if(b->kolizja_laser==true)
+        window_.draw(*it);
+        if(it->kolizja_laser==true)
         {
-            rozbicie(b);
+            it->kolizja_laser = false;
+            radius = it->getRadius()/2;
+            V_x = std::abs(it->getVelocity_x());
+            lim = it->getLimit()-50;
+            x = it->getGlobalBounds().left+it->getGlobalBounds().width/2;
+            y = it->getGlobalBounds().top+it->getGlobalBounds().height/2-radius;
+            if(lim>=lim_rozb)
+            {
+                dodano = true;
+            }
+            it = Balls.erase(it);
+            break;
         }
         if(start_sleep>2)
         {
-            if(b->kolizja_hero!=true && wid.end_time!=true)
+            if(it->kolizja_hero!=true && wid.end_time!=true)
             {
-                b->step(elp,getWidth(),getHeight());
+                it->step(elp,getWidth(),getHeight());
             }
         }
     }
     if(dodano==true)
     {
-        Balls.emplace_back() = new Enemy(radius,x-2*radius,y,lim,-std::abs(V_x),getPlanet());
-        Balls.emplace_back() = new Enemy(radius,x,y,lim,V_x,getPlanet());
+        Balls.emplace_back(radius,x-2*radius,y,lim,-std::abs(V_x),getPlanet());
+        Balls.emplace_back(radius,x,y,lim,V_x,getPlanet());
         dodano = false;
     }
 
@@ -332,20 +326,16 @@ void Scena::draw(const sf::Time& elp,Player& hero,Weapon* laser,Widgets& wid,sf:
         window_.draw(*laser->laser_);
         if(laser->fire_l==true)
         {
-            laser->Animate();
+            laser->Animate(elp);
             if(laser->kolizja_ball==true)
             {
                 fire = false;
-                laser->fire_l = false;
-                laser->a = 1;
-                laser->kolizja_ball = false;
                 delete laser;
             }
         }
         else
         {
             fire = false;
-            laser->a = 1;
             delete laser;
         }
     }
@@ -408,20 +398,20 @@ void Scena::loop(Player& hero,sf::RenderWindow& window_)
     hero.robot->setPosition(getWidth()/2-25,getHeight()-329);
     if(ECTS == 0)
     {
-        Balls.emplace_back() = new Enemy(100,100,100,350,100,getPlanet());
+        Balls.emplace_back(100,100,100,350,100,getPlanet());
         lim_rozb = 250;
     }
     if(ECTS == 1)
     {
-        Balls.emplace_back() = new Enemy(100,100,100,350,100,getPlanet());
-        Balls.emplace_back() = new Enemy(100,window_.getSize().x-300,100,350,-100,getPlanet());
+        Balls.emplace_back(100,100,100,350,100,getPlanet());
+        Balls.emplace_back(100,window_.getSize().x-300,100,350,-100,getPlanet());
         lim_rozb = 250;
     }
     if(ECTS == 2)
     {
         for(int i=0;i<8;i++)
         {
-            Balls.emplace_back() = new Enemy(20,50+i*40,50+i*40,250,100,getPlanet());
+            Balls.emplace_back(20,50+i*40,50+i*40,250,100,getPlanet());
         }
         lim_rozb = 250;
     }
@@ -429,7 +419,7 @@ void Scena::loop(Player& hero,sf::RenderWindow& window_)
     {
         for(int i=0;i<2;i++)
         {
-            Balls.emplace_back() = new Enemy(80,100+i*200,100+i*50,350,150,getPlanet());
+            Balls.emplace_back(80,100+i*200,100+i*50,350,150,getPlanet());
         }
         lim_rozb = 250;
     }
@@ -437,11 +427,11 @@ void Scena::loop(Player& hero,sf::RenderWindow& window_)
     {
         for(int i=0;i<6;i++)
         {
-            Balls.emplace_back() = new Enemy(20,50+i*40,50+i*40,250,100,getPlanet());
+            Balls.emplace_back(20,50+i*40,50+i*40,250,100,getPlanet());
         }
         for(int i=0;i<6;i++)
         {
-            Balls.emplace_back() = new Enemy(20,window_.getSize().x-(150+i*40),75+i*40,250,-100,getPlanet());
+            Balls.emplace_back(20,window_.getSize().x-(150+i*40),75+i*40,250,-100,getPlanet());
         }
         lim_rozb = 250;
     }
@@ -449,11 +439,11 @@ void Scena::loop(Player& hero,sf::RenderWindow& window_)
     {
         for(int i=0;i<2;i++)
         {
-            Balls.emplace_back() = new Enemy(30,50+i*50,50+i*50,600,100,getPlanet());
+            Balls.emplace_back(30,50+i*50,50+i*50,600,100,getPlanet());
         }
         for(int i=0;i<2;i++)
         {
-            Balls.emplace_back() = new Enemy(30,window_.getSize().x-(100+i*50),50+i*50,600,-100,getPlanet());
+            Balls.emplace_back(30,window_.getSize().x-(100+i*50),50+i*50,600,-100,getPlanet());
         }
         lim_rozb = 550;
     }

@@ -12,15 +12,15 @@ Weapon::Weapon(const float& x, const float& y)
 }
 
 
-void Weapon::Animate()
+void Weapon::Animate(const sf::Time& elapsed)
 {
+    time_wep += elapsed.asSeconds();
     if(laser_->getGlobalBounds().top>25)
     {
-        laser_->setScale(1,-a);
+        laser_->setScale(1,-time_wep*25);
     }
     else
     {
         fire_l = false;
     }
-    a += 0.05;
 }
