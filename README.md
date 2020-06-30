@@ -10,7 +10,6 @@ Popularne Bubble Struggle to w moim przypadku gra jednoosobowa, której celem je
 * :arrow_right: poruszanie się w prawo
 * <kbd>Space</kbd> strzał laserem
 
-<br/>Moja wersja: <br/>
-<br/>
-![Gif of my Bubble Struggle](https://github.com/barxtex1/Bubble_Struggle/blob/master/images/gif.gif)
-<br/><br/>
+## Planowane do wykorzystania biblioteki
+* SFML
+* QT
